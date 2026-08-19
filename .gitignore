@@ -1,0 +1,12 @@
+node_modules
+dist
+dist-ssr
+*.local
+
+# Debug / tooling artifacts
+.playwright-mcp
+.shots
+.shot-tool
+.superpowers
+.vite
+.DS_Store
