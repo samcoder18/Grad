@@ -1,4 +1,4 @@
-import { Phone, EnvelopeSimple } from "@phosphor-icons/react";
+import { WhatsappLogo, EnvelopeSimple } from "@phosphor-icons/react";
 import { contacts } from "../data/flavors.js";
 import { asset } from "../lib/asset.js";
 
@@ -12,8 +12,8 @@ const links = [
 
 export default function Footer() {
   return (
-    <footer className="bg-ink p-4 sm:p-6">
-      <div className="mx-auto max-w-7xl rounded-[36px] bg-white px-6 py-10 md:px-12 md:py-14">
+    <footer className="border-t border-line">
+      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-16">
         {/* Top row: logo + contact buttons */}
         <div className="flex items-center justify-between gap-6">
           <a href="#top" className="inline-flex items-center gap-3">
@@ -26,11 +26,13 @@ export default function Footer() {
 
           <div className="flex items-center gap-3">
             <a
-              href={contacts.phoneHref}
-              aria-label={`Позвонить: ${contacts.phone}`}
+              href="https://wa.me/79931837444"
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`WhatsApp: ${contacts.phone}`}
               className="flex h-11 w-11 items-center justify-center rounded-full bg-ink/5 text-ink transition-colors duration-300 hover:bg-ink/10"
             >
-              <Phone size={20} weight="bold" />
+              <WhatsappLogo size={20} weight="fill" />
             </a>
             <a
               href={`mailto:${contacts.email}`}

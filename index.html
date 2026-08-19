@@ -14,7 +14,13 @@
       content="Натуральные лимонады и вода с вершин Кавказа от производителя. Опт от 50 рублей."
     />
     <meta property="og:image" content="https://samcoder18.github.io/Grad/img/splash.jpg" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <!-- Start the hero fetch before the JS bundle mounts React -->
+    <link rel="preload" as="image" href="/img/hero-bg.webp" media="(min-width: 1024px)" fetchpriority="high" />
+    <link rel="preload" as="image" href="/img/hero-bg-mobile.webp" media="(max-width: 1023px)" fetchpriority="high" />
   </head>
   <body>
     <div id="root"></div>

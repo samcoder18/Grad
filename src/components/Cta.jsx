@@ -1,6 +1,7 @@
 import { motion, useReducedMotion } from "motion/react";
 import { ArrowUpRight, Phone, EnvelopeSimple } from "@phosphor-icons/react";
 import { contacts } from "../data/flavors.js";
+import { asset } from "../lib/asset.js";
 
 export default function Cta() {
   const reduce = useReducedMotion();
@@ -22,6 +23,29 @@ export default function Cta() {
               "radial-gradient(50rem 26rem at 90% 0%, rgba(255,255,255,0.16), transparent 55%), radial-gradient(44rem 24rem at 0% 100%, rgba(179,18,42,0.55), transparent 60%)",
           }}
         />
+        {/* Floating 3D decorations */}
+        <img
+          src={asset("img/deco-bolt.webp")}
+          alt=""
+          aria-hidden
+          className="pointer-events-none absolute top-[6%] right-[4%] hidden w-24 animate-float drop-shadow-[0_18px_24px_rgba(11,47,74,0.25)] sm:block md:w-32 lg:w-36"
+          style={{ animationDelay: "0.4s" }}
+        />
+        <img
+          src={asset("img/deco-heart.webp")}
+          alt=""
+          aria-hidden
+          className="pointer-events-none absolute top-[38%] right-[16%] hidden w-16 animate-float drop-shadow-[0_14px_20px_rgba(11,47,74,0.22)] sm:block md:w-20 lg:w-24"
+          style={{ animationDelay: "1.3s" }}
+        />
+        <img
+          src={asset("img/deco-smile.webp")}
+          alt=""
+          aria-hidden
+          className="pointer-events-none absolute right-[5%] bottom-[6%] w-20 animate-float drop-shadow-[0_18px_24px_rgba(11,47,74,0.25)] sm:w-24 md:w-32 lg:w-40"
+          style={{ animationDelay: "0.9s" }}
+        />
+
         <div className="relative">
           <motion.h2
             {...rise(0)}
