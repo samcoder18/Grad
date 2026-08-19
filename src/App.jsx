@@ -8,6 +8,7 @@ import HitsBento from "./components/HitsBento.jsx";
 import Manifesto from "./components/Manifesto.jsx";
 import Gudis from "./components/Gudis.jsx";
 import Cta from "./components/Cta.jsx";
+import LocationSection from "./components/LocationSection.jsx";
 import Footer from "./components/Footer.jsx";
 
 const OfficeShell = lazy(() => import("./components/office/OfficeShell.jsx"));
@@ -50,6 +51,7 @@ export default function App() {
             <Manifesto />
             <Gudis />
             <Cta />
+            <LocationSection />
             <Footer />
           </motion.div>
         ) : (

@@ -1,6 +1,7 @@
 import { motion, useReducedMotion } from "motion/react";
 import { ArrowUpRight } from "@phosphor-icons/react";
 import { hits } from "../data/flavors.js";
+import { asset } from "../lib/asset.js";
 
 const ease = [0.16, 1, 0.3, 1];
 
@@ -75,9 +76,9 @@ export default function HitsBento() {
           className="max-w-5xl font-display text-3xl font-bold tracking-tight text-balance md:text-6xl"
         >
           Литровые хиты
-          <HeadlinePill src="/img/orange.webp" position="center 30%" />
+          <HeadlinePill src={asset("img/orange.webp")} position="center 30%" />
           Dolce
-          <HeadlinePill src="/img/mojito.webp" position="center 44%" />
+          <HeadlinePill src={asset("img/mojito.webp")} position="center 44%" />
           кончаются первыми
         </motion.h2>
         <motion.p
@@ -100,7 +101,7 @@ export default function HitsBento() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.7, delay: 0.24, ease }}
-            className="relative flex h-80 flex-col justify-between overflow-hidden rounded-[28px] bg-dolce p-7 sm:h-auto sm:col-span-2 lg:col-span-3"
+            className="relative flex min-h-80 flex-col justify-between overflow-hidden rounded-[28px] bg-dolce p-7 sm:col-span-2 sm:row-span-2 lg:col-span-3 lg:row-span-2"
           >
             <div
               aria-hidden
@@ -134,7 +135,7 @@ export default function HitsBento() {
               </a>
             </div>
           </motion.div>
-          <ImageCell hit={lime} delay={0.32} className="h-80 sm:h-auto sm:col-span-2 lg:col-span-3" />
+          <ImageCell hit={lime} delay={0.32} className="h-80 sm:h-auto sm:col-span-2 lg:col-span-3 lg:row-span-2" />
         </div>
       </div>
     </section>

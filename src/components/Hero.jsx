@@ -8,6 +8,7 @@ import {
   useTransform,
 } from "motion/react";
 import { ArrowUpRight, ArrowDown } from "@phosphor-icons/react";
+import { asset } from "../lib/asset.js";
 
 const ease = [0.16, 1, 0.3, 1];
 
@@ -136,7 +137,7 @@ export default function Hero() {
         style={reduce ? undefined : { y: bgY, scale: bgScale }}
       >
         <motion.img
-          src="/img/hero-bg.webp"
+          src={asset("img/hero-bg.webp")}
           alt="Бутылки лимонадов Мохито и Виноград на альпийском лугу"
           className="block h-auto w-full"
           fetchPriority="high"

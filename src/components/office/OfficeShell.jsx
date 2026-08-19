@@ -3,6 +3,7 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ArrowLeft, Bell } from "@phosphor-icons/react";
 import { MODULE_GROUPS, MODULES } from "./modules.js";
 import { Avatar } from "./ui.jsx";
+import { asset } from "../../lib/asset.js";
 
 const ease = [0.16, 1, 0.3, 1];
 
@@ -24,7 +25,7 @@ export default function OfficeShell({ onExit }) {
       <aside className="sticky top-0 hidden h-screen w-72 shrink-0 flex-col bg-ink text-white md:flex">
         <div className="flex items-center gap-3 px-6 pb-6 pt-7">
           <img
-            src="/img/logo-white.webp"
+            src={asset("img/logo-white.webp")}
             alt="Сладкий Град"
             className="h-10 w-auto"
           />

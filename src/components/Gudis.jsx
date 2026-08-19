@@ -1,7 +1,8 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ArrowUpRight, Drop, Mountains, Sparkle } from "@phosphor-icons/react";
+import { ArrowUpRight, Drop, Sparkle } from "@phosphor-icons/react";
+import { asset } from "../lib/asset.js";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,30 +17,25 @@ const variants = [
     title: "Газированная",
     text: "Бодрящая и лёгкая. Мягко улучшает пищеварение после еды.",
   },
-  {
-    icon: Mountains,
-    title: "Горный источник",
-    text: "Добывается в Хунзахском районе Дагестана, у подножия Кавказа.",
-  },
 ];
 
 const gallery = [
   {
-    src: "/img/gudis-1.webp",
+    src: asset("img/gudis-1.webp"),
     alt: "Вода Гудис в стеклянной бутылке",
     caption: "Стекло, 0,4 л",
     wrap: "col-span-2",
     imgCls: "aspect-[4/5] object-contain p-4",
   },
   {
-    src: "/img/gudis-3.webp",
+    src: asset("img/gudis-3.webp"),
     alt: "Газированная вода Гудис в ПЭТ-бутылке",
     caption: "ПЭТ, газированная",
     wrap: "",
     imgCls: "aspect-[3/4] object-contain p-2",
   },
   {
-    src: "/img/gudis-2.webp",
+    src: asset("img/gudis-2.webp"),
     alt: "Негазированная вода Гудис в ПЭТ-бутылке",
     caption: "ПЭТ, негазированная",
     wrap: "md:mt-16",
@@ -150,7 +146,7 @@ export default function Gudis() {
           </ul>
           <a
             href="#contacts"
-            className="gudis-reveal group mt-10 inline-flex items-center gap-2 rounded-full border border-white/25 px-6 py-3.5 text-base font-semibold text-white transition-all duration-300 hover:border-white hover:bg-white/10 active:scale-[0.98]"
+            className="gudis-reveal group mt-10 inline-flex items-center gap-2 rounded-full border border-white/25 px-6 py-3.5 text-base font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:border-white hover:bg-white hover:text-alpine active:scale-[0.98]"
           >
             Оформить заказ
             <ArrowUpRight

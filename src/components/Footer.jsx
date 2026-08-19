@@ -1,4 +1,5 @@
 import { contacts } from "../data/flavors.js";
+import { asset } from "../lib/asset.js";
 
 const links = [
   { href: "#flavors", label: "Вкусы" },
@@ -14,7 +15,7 @@ export default function Footer() {
         <div className="max-w-sm">
           <a href="#top" className="inline-block">
             <img
-              src="/img/logo-black.webp"
+              src={asset("img/logo-black.webp")}
               alt="Сладкий Град"
               className="h-14 w-auto"
             />

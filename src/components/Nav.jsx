@@ -8,6 +8,7 @@ import {
   useTransform,
 } from "motion/react";
 import { List, X, ArrowUpRight, Buildings } from "@phosphor-icons/react";
+import { asset } from "../lib/asset.js";
 
 const links = [
   { href: "#flavors", label: "Вкусы" },
@@ -50,7 +51,7 @@ export default function Nav({ onEnterOffice }) {
       >
         <a href="#top" className="flex items-center whitespace-nowrap">
           <img
-            src="/img/logo-black.webp"
+            src={asset("img/logo-black.webp")}
             alt="Сладкий Град"
             className="h-11 w-auto"
           />
