@@ -234,9 +234,9 @@ export default function FlavorAccordion() {
           <div
             className="relative w-full"
             style={{
-              fontFamily: "'Anton', sans-serif",
-              fontSize: "clamp(64px, 14vw, 210px)",
-              fontWeight: 400,
+              fontFamily: "var(--font-display)",
+              fontSize: "clamp(44px, 11.5vw, 190px)",
+              fontWeight: 700,
               color: "#fff",
               lineHeight: 1,
               textTransform: "uppercase",
@@ -352,9 +352,9 @@ export default function FlavorAccordion() {
           className="absolute right-4 bottom-6 flex items-center gap-2 text-white no-underline sm:right-10 sm:bottom-20"
           style={{
             zIndex: 60,
-            fontFamily: "'Anton', sans-serif",
+            fontFamily: "var(--font-display)",
             fontSize: "clamp(20px, 2.8vw, 40px)",
-            fontWeight: 400,
+            fontWeight: 700,
             opacity: 0.95,
             letterSpacing: "0.01em",
             lineHeight: 1,
