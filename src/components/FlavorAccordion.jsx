@@ -313,7 +313,7 @@ export default function FlavorAccordion() {
         {/* Bottom-left: flavor text + nav */}
         <div
           aria-live="polite"
-          className="absolute bottom-6 left-4 sm:bottom-20 sm:left-24"
+          className="absolute bottom-14 left-4 sm:bottom-20 sm:left-24"
           style={{ zIndex: 60, maxWidth: 320 }}
         >
           <p
@@ -349,7 +349,7 @@ export default function FlavorAccordion() {
         {/* Bottom-right link */}
         <a
           href="#contacts"
-          className="absolute right-4 bottom-6 flex items-center gap-2 text-white no-underline sm:right-10 sm:bottom-20"
+          className="absolute right-4 bottom-14 flex items-center gap-2 text-white no-underline sm:right-10 sm:bottom-20"
           style={{
             zIndex: 60,
             fontFamily: "var(--font-display)",
@@ -385,7 +385,7 @@ export default function FlavorAccordion() {
         {!reduceMotion && (
           <div
             aria-hidden
-            className="absolute inset-x-0 bottom-0 h-[3px] bg-white/15"
+            className="absolute inset-x-0 bottom-8 h-[3px] bg-white/15 md:bottom-10"
             style={{ zIndex: 60 }}
           >
             <div

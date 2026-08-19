@@ -66,7 +66,7 @@ export default function HitsBento() {
   const [cola, mojito, orange, lime] = hits;
 
   return (
-    <section id="hits" className="py-24 md:py-44">
+    <section id="hits" className="relative z-10 -mt-8 rounded-t-[28px] bg-paper py-24 md:-mt-10 md:rounded-t-[40px] md:py-44">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <motion.h2
           initial={reduce ? false : { opacity: 0, y: 24 }}
