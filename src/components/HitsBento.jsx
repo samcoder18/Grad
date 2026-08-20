@@ -1,4 +1,5 @@
-import { motion, useReducedMotion } from "motion/react";
+import { useRef } from "react";
+import { motion, useReducedMotion, useScroll, useTransform, useMotionTemplate } from "motion/react";
 import { ArrowUpRight } from "@phosphor-icons/react";
 import { hits } from "../data/flavors.js";
 import { asset } from "../lib/asset.js";
@@ -65,8 +66,25 @@ export default function HitsBento() {
   const reduce = useReducedMotion();
   const [cola, mojito, orange, lime] = hits;
 
+  // Curtain wipe: the section unfolds over the pinned flavor carousel.
+  // While the section top travels from the viewport bottom to near the top,
+  // the clip-path opens from fully closed to fully open, revealing content
+  // top-down and letting the pinned color show through below the wipe edge.
+  const sectionRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "start 0.12"],
+  });
+  const clipBottom = useTransform(scrollYProgress, [0, 1], [100, 0]);
+  const clipPath = useMotionTemplate`inset(0 0 ${clipBottom}% 0)`;
+
   return (
-    <section id="hits" className="relative z-10 -mt-8 rounded-t-[28px] bg-paper py-24 md:-mt-10 md:rounded-t-[40px] md:py-44">
+    <motion.section
+      ref={sectionRef}
+      id="hits"
+      className="relative z-10 bg-paper py-24 md:py-44"
+      style={reduce ? undefined : { clipPath }}
+    >
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <motion.h2
           initial={reduce ? false : { opacity: 0, y: 24 }}
@@ -138,6 +156,6 @@ export default function HitsBento() {
           <ImageCell hit={lime} delay={0.32} className="h-80 sm:h-auto sm:col-span-2 lg:col-span-3 lg:row-span-2" />
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

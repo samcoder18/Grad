@@ -178,10 +178,13 @@ export default function FlavorAccordion() {
     <section
       ref={sectionRef}
       id="flavors"
-      className="relative w-full overflow-hidden"
+      className="relative w-full"
       style={{
         backgroundColor: active.color,
         transition: `background-color ${DURATION}ms ${EASE}`,
+        // Extra runway lets the inner stage pin (sticky) while the next
+        // section wipes over it. Disabled under reduced motion.
+        height: reduceMotion ? undefined : "170dvh",
       }}
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
@@ -198,7 +201,10 @@ export default function FlavorAccordion() {
       }}
     >
       <h2 className="sr-only">Стеклянная линейка: семь характеров одного города</h2>
-      <div className="relative w-full" style={{ height: "100dvh", overflow: "hidden" }}>
+      <div
+        className={`relative w-full ${reduceMotion ? "" : "sticky top-0"}`}
+        style={{ height: "100dvh", overflow: "hidden" }}
+      >
         {/* Crossfading gradient backgrounds, one per flavor */}
         <div aria-hidden className="pointer-events-none absolute inset-0" style={{ zIndex: 0 }}>
           {flavors.map((f, i) => (
@@ -313,7 +319,7 @@ export default function FlavorAccordion() {
         {/* Bottom-left: flavor text + nav */}
         <div
           aria-live="polite"
-          className="absolute bottom-14 left-4 sm:bottom-20 sm:left-24"
+          className="absolute bottom-6 left-4 sm:bottom-20 sm:left-24"
           style={{ zIndex: 60, maxWidth: 320 }}
         >
           <p
@@ -349,7 +355,7 @@ export default function FlavorAccordion() {
         {/* Bottom-right link */}
         <a
           href="#contacts"
-          className="absolute right-4 bottom-14 flex items-center gap-2 text-white no-underline sm:right-10 sm:bottom-20"
+          className="absolute right-4 bottom-6 flex items-center gap-2 text-white no-underline sm:right-10 sm:bottom-20"
           style={{
             zIndex: 60,
             fontFamily: "var(--font-display)",
@@ -385,7 +391,7 @@ export default function FlavorAccordion() {
         {!reduceMotion && (
           <div
             aria-hidden
-            className="absolute inset-x-0 bottom-8 h-[3px] bg-white/15 md:bottom-10"
+            className="absolute inset-x-0 bottom-0 h-[3px] bg-white/15"
             style={{ zIndex: 60 }}
           >
             <div
