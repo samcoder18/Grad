@@ -1,7 +1,8 @@
 import { useRef } from "react";
 import { motion, useReducedMotion, useScroll, useTransform, useMotionTemplate } from "motion/react";
 import { ArrowUpRight } from "@phosphor-icons/react";
-import { hits } from "../data/flavors.js";
+import { openOrderModal } from "../lib/order-modal.js";
+import { hits, hitsPackaging } from "../data/flavors.js";
 import { asset } from "../lib/asset.js";
 
 const ease = [0.16, 1, 0.3, 1];
@@ -50,7 +51,7 @@ function ImageCell({ hit, className, delay }) {
             <h3 className="font-display text-2xl font-bold tracking-tight text-white md:text-3xl">
               {hit.name}
             </h3>
-            <span className="text-sm font-semibold text-white/65">1 л</span>
+            <span className="text-sm font-semibold text-white/65">1 л ПЭТ</span>
           </div>
           <p className="mt-1.5 max-w-[34ch] text-sm leading-relaxed text-white/85">{hit.text}</p>
         </div>
@@ -140,8 +141,26 @@ export default function HitsBento() {
                 Заметен издалека и быстро оборачивается: берут для компаний,
                 праздников и больших семейных ужинов.
               </p>
-              <a
-                href="#contacts"
+              {/* Фасовка и паллеты литровой линейки */}
+              <div className="mt-5 rounded-2xl border border-white/25 bg-white/10 px-4 py-3.5 backdrop-blur-sm">
+                <p className="font-display text-[13px] font-bold tracking-wide text-white uppercase">
+                  {hitsPackaging.spec}
+                </p>
+                <ul
+                  className="mt-2 space-y-1 text-[13px] leading-snug text-white/85"
+                  style={{ fontVariantNumeric: "tabular-nums" }}
+                >
+                  {hitsPackaging.pallets.map((p) => (
+                    <li key={p.label} className="flex items-baseline justify-between gap-3">
+                      <span className="shrink-0 text-white/60">{p.label}</span>
+                      <span className="text-right font-semibold whitespace-nowrap">{p.value}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <button
+                type="button"
+                onClick={openOrderModal}
                 className="group/link mt-5 inline-flex items-center gap-2 text-base font-semibold text-white underline-offset-4 transition-all duration-300 hover:underline active:scale-[0.98]"
               >
                 Оформить заказ
@@ -150,7 +169,7 @@ export default function HitsBento() {
                   weight="bold"
                   className="transition-transform duration-300 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5"
                 />
-              </a>
+              </button>
             </div>
           </motion.div>
           <ImageCell hit={lime} delay={0.32} className="h-80 sm:h-auto sm:col-span-2 lg:col-span-3 lg:row-span-2" />

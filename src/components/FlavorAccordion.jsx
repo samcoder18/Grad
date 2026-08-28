@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "motion/react";
 import { ArrowLeft, ArrowRight } from "@phosphor-icons/react";
-import { flavors } from "../data/flavors.js";
+import { flavors, glassPackaging } from "../data/flavors.js";
 
 const COUNT = flavors.length;
 const DURATION = 650;
@@ -327,9 +327,26 @@ export default function FlavorAccordion() {
           >
             {active.name}
           </p>
-          <p className="mb-5 hidden max-w-[36ch] text-sm leading-relaxed text-white/80 sm:mb-6 sm:block">
+          <p className="mb-4 hidden max-w-[36ch] text-sm leading-relaxed text-white/80 sm:block">
             {active.text}
           </p>
+          {/* Фасовка и паллеты — одинаковы для всей стеклянной линейки */}
+          <div className="mb-5 max-w-[320px] rounded-2xl border border-white/25 bg-black/20 px-4 py-3 backdrop-blur-sm sm:mb-6">
+            <p className="font-display text-[13px] font-bold tracking-wide text-white uppercase">
+              {glassPackaging.spec}
+            </p>
+            <ul
+              className="mt-2 space-y-1 text-xs leading-snug text-white/85"
+              style={{ fontVariantNumeric: "tabular-nums" }}
+            >
+              {glassPackaging.pallets.map((p) => (
+                <li key={p.label} className="flex items-baseline justify-between gap-3">
+                  <span className="shrink-0 text-white/60">{p.label}</span>
+                  <span className="text-right font-semibold whitespace-nowrap">{p.value}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
           <div className="flex items-center gap-3 sm:gap-4">
             <button
               type="button"

@@ -2,42 +2,45 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowUpRight, Drop, Sparkle } from "@phosphor-icons/react";
+import { openOrderModal } from "../lib/order-modal.js";
 import { asset } from "../lib/asset.js";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const variants = [
   {
-    icon: Drop,
-    title: "Негазированная",
-    text: "Умеренная минерализация. Подходит для ежедневного потребления.",
-  },
-  {
     icon: Sparkle,
     title: "Газированная",
     text: "Бодрящая и лёгкая. Мягко улучшает пищеварение после еды.",
+    formats: ["0,5 л · стекло", "1 л · ПЭТ"],
+  },
+  {
+    icon: Drop,
+    title: "Негазированная",
+    text: "Умеренная минерализация. Подходит для ежедневного потребления.",
+    formats: ["0,5 л · ПЭТ"],
   },
 ];
 
 const gallery = [
   {
     src: asset("img/gudis-1.webp"),
-    alt: "Вода Гудис в стеклянной бутылке",
-    caption: "Стекло, 0,4 л",
+    alt: "Газированная вода Гудис в стеклянной бутылке",
+    caption: "Стекло, газированная, 0,5 л",
     wrap: "col-span-2",
     imgCls: "aspect-[4/5] object-contain p-4",
   },
   {
     src: asset("img/gudis-3.webp"),
     alt: "Газированная вода Гудис в ПЭТ-бутылке",
-    caption: "ПЭТ, газированная",
+    caption: "ПЭТ, газированная, 1 л",
     wrap: "",
     imgCls: "aspect-[3/4] object-contain p-2",
   },
   {
     src: asset("img/gudis-2.webp"),
     alt: "Негазированная вода Гудис в ПЭТ-бутылке",
-    caption: "ПЭТ, негазированная",
+    caption: "ПЭТ, негазированная, 0,5 л",
     wrap: "md:mt-16",
     imgCls: "aspect-[3/4] object-contain p-2",
   },
@@ -140,12 +143,24 @@ export default function Gudis() {
                   <span className="mt-1 block text-base leading-relaxed text-white/70">
                     {v.text}
                   </span>
+                  <span className="mt-2.5 flex flex-wrap gap-1.5">
+                    {v.formats.map((f) => (
+                      <span
+                        key={f}
+                        className="rounded-full border border-gudis/40 bg-gudis/15 px-2.5 py-1 text-xs font-semibold text-gudis"
+                        style={{ fontVariantNumeric: "tabular-nums" }}
+                      >
+                        {f}
+                      </span>
+                    ))}
+                  </span>
                 </span>
               </li>
             ))}
           </ul>
-          <a
-            href="#contacts"
+          <button
+            type="button"
+            onClick={openOrderModal}
             className="gudis-reveal group mt-10 inline-flex items-center gap-2 rounded-full border border-white/25 px-6 py-3.5 text-base font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:border-white hover:bg-white hover:text-alpine active:scale-[0.98]"
           >
             Оформить заказ
@@ -154,7 +169,7 @@ export default function Gudis() {
               weight="bold"
               className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
             />
-          </a>
+          </button>
         </div>
 
         <div className="relative lg:col-span-7">

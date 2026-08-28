@@ -8,6 +8,7 @@ import {
   useTransform,
 } from "motion/react";
 import { List, X, ArrowUpRight, Buildings } from "@phosphor-icons/react";
+import { openOrderModal } from "../lib/order-modal.js";
 import { asset } from "../lib/asset.js";
 
 const links = [
@@ -79,8 +80,9 @@ export default function Nav({ onEnterOffice }) {
             <Buildings size={16} weight="bold" aria-hidden="true" />
             Офис
           </button>
-          <a
-            href="#contacts"
+          <button
+            type="button"
+            onClick={openOrderModal}
             className="group hidden items-center gap-1.5 rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-brand-deep active:scale-[0.98] sm:inline-flex"
           >
             Оформить заказ
@@ -89,7 +91,7 @@ export default function Nav({ onEnterOffice }) {
               weight="bold"
               className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
             />
-          </a>
+          </button>
           <button
             type="button"
             aria-label={open ? "Закрыть меню" : "Открыть меню"}
@@ -136,14 +138,17 @@ export default function Nav({ onEnterOffice }) {
                 </button>
               </li>
               <li className="pt-2">
-                <a
-                  href="#contacts"
-                  onClick={() => setOpen(false)}
-                  className="flex items-center justify-center gap-1.5 rounded-full bg-brand px-5 py-3.5 text-base font-semibold text-white active:scale-[0.98]"
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOpen(false);
+                    openOrderModal();
+                  }}
+                  className="flex w-full items-center justify-center gap-1.5 rounded-full bg-brand px-5 py-3.5 text-base font-semibold text-white active:scale-[0.98]"
                 >
                   Оформить заказ
                   <ArrowUpRight size={18} weight="bold" />
-                </a>
+                </button>
               </li>
             </ul>
           </motion.div>

@@ -8,6 +8,7 @@ import {
   useTransform,
 } from "motion/react";
 import { ArrowUpRight, ArrowDown } from "@phosphor-icons/react";
+import { openOrderModal } from "../lib/order-modal.js";
 import { asset } from "../lib/asset.js";
 
 const ease = [0.16, 1, 0.3, 1];
@@ -199,8 +200,9 @@ export default function Hero() {
           </motion.p>
 
           <motion.div {...rise(0.7)} className="mt-7 flex flex-col gap-3">
-            <a
-              href="#contacts"
+            <button
+              type="button"
+              onClick={openOrderModal}
               className="group flex items-center justify-center gap-2 rounded-full bg-brand px-6 py-3.5 text-sm font-semibold text-white shadow-[0_12px_32px_-12px_rgba(217,30,54,0.6)] transition-colors duration-300 hover:bg-brand-deep active:scale-[0.98]"
             >
               Оформить заказ
@@ -209,7 +211,7 @@ export default function Hero() {
                 weight="bold"
                 className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
               />
-            </a>
+            </button>
             <a
               href="#flavors"
               className="group flex items-center justify-center gap-2 rounded-full border border-white/40 bg-white/10 px-6 py-3.5 text-sm font-semibold text-white backdrop-blur-md transition-colors duration-300 hover:bg-white/20 active:scale-[0.98]"
@@ -272,8 +274,9 @@ export default function Hero() {
 
             <motion.div {...rise(0.7)} className="mt-7 flex flex-row flex-wrap items-center gap-3">
               <Magnetic className="inline-block">
-                <a
-                  href="#contacts"
+                <button
+                  type="button"
+                  onClick={openOrderModal}
                   className="group inline-flex items-center justify-center gap-2 rounded-full bg-brand px-6 py-3.5 text-sm font-semibold text-white transition-colors duration-300 hover:bg-brand-deep active:scale-[0.98]"
                 >
                   Оформить заказ
@@ -282,7 +285,7 @@ export default function Hero() {
                     weight="bold"
                     className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                   />
-                </a>
+                </button>
               </Magnetic>
               <Magnetic className="inline-block" strength={0.22}>
                 <a

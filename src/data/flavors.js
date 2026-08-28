@@ -83,8 +83,27 @@ export const hits = [
   },
 ];
 
+// Фасовка стеклянной линейки — одинакова для всех семи вкусов карусели.
+export const glassPackaging = {
+  spec: "0,5 л · стекло · 12 шт в упаковке",
+  pallets: [
+    { label: "Большой поддон", value: "110 упаковок · 1 320 бутылок" },
+    { label: "Европоддон", value: "90 упаковок · 1 080 бутылок" },
+  ],
+};
+
+// Фасовка литровых хитов Dolce (бенто-блок).
+export const hitsPackaging = {
+  spec: "1 л · ПЭТ · 9 шт в упаковке",
+  pallets: [
+    { label: "Европоддон", value: "75 упаковок · 675 бутылок" },
+    { label: "Большой поддон", value: "100 упаковок · 900 бутылок" },
+  ],
+};
+
 export const contacts = {
   phone: "+7 (993) 183-74-44",
   phoneHref: "tel:+79931837444",
   email: "gudis_goodies@mail.ru",
+  whatsapp: "https://wa.me/79931837444",
 };

@@ -26,7 +26,7 @@ export default function Footer() {
 
           <div className="flex items-center gap-3">
             <a
-              href="https://wa.me/79931837444"
+              href={contacts.whatsapp}
               target="_blank"
               rel="noreferrer"
               aria-label={`WhatsApp: ${contacts.phone}`}
@@ -53,6 +53,12 @@ export default function Footer() {
             <p className="mt-1 text-ink-soft">
               Производство и оптовые поставки напитков
             </p>
+            <a
+              href="#privacy"
+              className="mt-3 inline-block text-ink-soft underline-offset-4 transition-colors hover:text-ink hover:underline"
+            >
+              Политика обработки персональных данных
+            </a>
           </div>
 
           <nav aria-label="Нижняя навигация" className="md:text-right">

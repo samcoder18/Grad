@@ -1,5 +1,6 @@
 import { motion, useReducedMotion } from "motion/react";
 import { ArrowUpRight, Phone, EnvelopeSimple } from "@phosphor-icons/react";
+import { openOrderModal } from "../lib/order-modal.js";
 import { contacts } from "../data/flavors.js";
 import { asset } from "../lib/asset.js";
 
@@ -62,8 +63,9 @@ export default function Cta() {
           </motion.p>
 
           <motion.div {...rise(0.2)} className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
-            <a
-              href={`mailto:${contacts.email}`}
+            <button
+              type="button"
+              onClick={openOrderModal}
               className="group flex items-center justify-center gap-2 rounded-full bg-white px-7 py-4 text-base font-semibold text-brand transition-all duration-300 hover:bg-paper active:scale-[0.98] sm:inline-flex"
             >
               Оформить заказ
@@ -72,7 +74,7 @@ export default function Cta() {
                 weight="bold"
                 className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
               />
-            </a>
+            </button>
             <a
               href={contacts.phoneHref}
               className="flex items-center justify-center gap-2 rounded-full border border-white/40 px-7 py-4 text-base font-semibold text-white transition-colors duration-300 hover:border-white active:scale-[0.98] sm:inline-flex"
