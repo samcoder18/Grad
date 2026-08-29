@@ -19,7 +19,6 @@
   --color-pear: #d99a06;
   --color-orange: #f26d1b;
   --color-grape: #7c3a8e;
-  --color-pitahaya: #e8457f;
   --color-cola: #b3231f;
   --color-dolce: #2b4bd8;
   --color-gudis: #1287d4;
@@ -43,10 +42,10 @@
 
   @keyframes marquee {
     from {
-      transform: translateX(0);
+      transform: translateX(-50%);
     }
     to {
-      transform: translateX(-50%);
+      transform: translateX(0);
     }
   }
 

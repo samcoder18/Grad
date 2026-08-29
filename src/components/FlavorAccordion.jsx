@@ -200,7 +200,7 @@ export default function FlavorAccordion() {
         if (Math.abs(dx) > 40) navigate(dx < 0 ? "next" : "prev");
       }}
     >
-      <h2 className="sr-only">Стеклянная линейка: семь характеров одного города</h2>
+      <h2 className="sr-only">Стеклянная линейка: шесть характеров одного города</h2>
       <div
         className={`relative w-full ${reduceMotion ? "" : "sticky top-0"}`}
         style={{ height: "100dvh", overflow: "hidden" }}
@@ -322,12 +322,7 @@ export default function FlavorAccordion() {
           className="absolute bottom-6 left-4 sm:bottom-20 sm:left-24"
           style={{ zIndex: 60, maxWidth: 320 }}
         >
-          <p
-            className="mb-2 font-display text-xl font-bold tracking-tight text-white sm:mb-3 sm:text-2xl"
-          >
-            {active.name}
-          </p>
-          <p className="mb-4 hidden max-w-[36ch] text-sm leading-relaxed text-white/80 sm:block">
+          <p className="mb-4 hidden w-full text-sm leading-relaxed text-white/80 sm:block">
             {active.text}
           </p>
           {/* Фасовка и паллеты — одинаковы для всей стеклянной линейки */}

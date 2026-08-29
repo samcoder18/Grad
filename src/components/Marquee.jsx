@@ -1,7 +1,7 @@
 import { Asterisk } from "@phosphor-icons/react";
 import { flavors } from "../data/flavors.js";
 
-const items = [...flavors.map((f) => f.name), "Dolce Cola", "Lime", "Orange", "Вода Гудис"];
+const items = [...flavors.map((f) => f.name), "Dol4e Cola", "Lime", "Orange", "Вода Гудис"];
 
 export default function Marquee() {
   const row = (key, hidden) => (

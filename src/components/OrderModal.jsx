@@ -7,9 +7,14 @@ import {
   CheckCircle,
   WarningCircle,
   CaretDown,
+  Microphone,
+  StopCircle,
+  Trash,
+  CircleNotch,
 } from "@phosphor-icons/react";
 import { ORDER_MODAL_EVENT } from "../lib/order-modal.js";
-import { sendOrder } from "../lib/telegram.js";
+import { sendOrder, sendVoice } from "../lib/telegram.js";
+import { useVoiceRecorder } from "../lib/use-voice-recorder.js";
 import { contacts } from "../data/flavors.js";
 
 const BUSINESS_TYPES = ["Дистрибьютор", "Розница", "HoReCa", "Мероприятие"];
@@ -28,11 +33,26 @@ const inputCls =
 
 const labelCls = "mb-1.5 block text-sm font-medium text-ink";
 
+// Telegram captions are HTML — keep user input from breaking the markup.
+const escapeCaption = (s) =>
+  String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+
+const formatDuration = (s) =>
+  `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+
 export default function OrderModal() {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState(INITIAL_FORM);
   const [status, setStatus] = useState("idle"); // idle | sending | success | error
   const reduce = useReducedMotion();
+  const voice = useVoiceRecorder();
+  // Recording only works over HTTPS (or localhost) in a browser with a mic API.
+  const voiceSupported =
+    typeof navigator !== "undefined" &&
+    typeof navigator.mediaDevices?.getUserMedia === "function";
 
   // Any CTA in the app fires this event to open the modal.
   useEffect(() => {
@@ -64,7 +84,10 @@ export default function OrderModal() {
       [key]: e.target.type === "checkbox" ? e.target.checked : e.target.value,
     }));
 
-  const close = () => setOpen(false);
+  const close = () => {
+    voice.reset();
+    setOpen(false);
+  };
 
   const whatsappHref = `${contacts.whatsapp}?text=${encodeURIComponent(
     "Здравствуйте! Хочу заказать напитки Сладкий Град оптом.",
@@ -74,9 +97,22 @@ export default function OrderModal() {
     e.preventDefault();
     setStatus("sending");
     try {
-      await sendOrder(form);
+      await sendOrder({ ...form, hasVoice: Boolean(voice.blob) });
+      if (voice.blob) {
+        try {
+          await sendVoice(
+            voice.blob,
+            `🎙 <b>Голосовое к заявке</b>\n${escapeCaption(form.name)} · ${escapeCaption(form.phone)}`,
+          );
+        } catch (err) {
+          // The text order already went through — a failed voice note
+          // must not turn a delivered order into an error state.
+          console.error("Не удалось отправить голосовое сообщение:", err);
+        }
+      }
       setStatus("success");
       setForm(INITIAL_FORM);
+      voice.reset();
     } catch (err) {
       console.error("Не удалось отправить заявку:", err);
       setStatus("error");
@@ -281,6 +317,102 @@ export default function OrderModal() {
                     />
                   </div>
 
+                  {voiceSupported && (
+                    <div className="rounded-2xl border border-line bg-paper p-4">
+                      {voice.status === "recorded" && voice.url ? (
+                        <div>
+                          <p className="mb-2 flex items-center gap-2 text-sm font-medium text-ink">
+                            <Microphone
+                              size={18}
+                              weight="fill"
+                              className="text-brand"
+                              aria-hidden="true"
+                            />
+                            Голосовое сообщение записано ·{" "}
+                            {formatDuration(voice.duration)}
+                          </p>
+                          <audio
+                            controls
+                            src={voice.url}
+                            className="w-full"
+                            aria-label="Прослушать записанное сообщение"
+                          />
+                          <div className="mt-3 flex gap-2">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                voice.reset();
+                                voice.start();
+                              }}
+                              className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-ink/15 px-4 py-2.5 text-sm font-semibold text-ink transition-colors hover:border-ink/30 active:scale-[0.98]"
+                            >
+                              <Microphone size={16} weight="bold" />
+                              Перезаписать
+                            </button>
+                            <button
+                              type="button"
+                              onClick={voice.reset}
+                              aria-label="Удалить голосовое сообщение"
+                              className="inline-flex items-center justify-center gap-2 rounded-full border border-ink/15 px-4 py-2.5 text-sm font-semibold text-ink transition-colors hover:border-brand hover:text-brand active:scale-[0.98]"
+                            >
+                              <Trash size={16} weight="bold" />
+                            </button>
+                          </div>
+                        </div>
+                      ) : voice.status === "recording" ||
+                        voice.status === "requesting" ? (
+                        <div className="flex items-center justify-between gap-3">
+                          <p className="flex items-center gap-2.5 text-sm font-medium text-ink">
+                            <motion.span
+                              className="inline-block h-2.5 w-2.5 rounded-full bg-brand"
+                              animate={reduce ? false : { opacity: [1, 0.3, 1] }}
+                              transition={{ duration: 1.2, repeat: Infinity }}
+                              aria-hidden="true"
+                            />
+                            {voice.status === "requesting"
+                              ? "Запрашиваем доступ к микрофону…"
+                              : `Запись… ${formatDuration(voice.duration)} / ${formatDuration(120)}`}
+                          </p>
+                          {voice.status === "recording" ? (
+                            <button
+                              type="button"
+                              onClick={voice.stop}
+                              className="inline-flex items-center gap-2 rounded-full bg-ink px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-ink/80 active:scale-[0.98]"
+                            >
+                              <StopCircle size={16} weight="fill" />
+                              Остановить
+                            </button>
+                          ) : (
+                            <CircleNotch
+                              size={18}
+                              className="animate-spin text-ink-soft"
+                              aria-hidden="true"
+                            />
+                          )}
+                        </div>
+                      ) : (
+                        <div>
+                          <button
+                            type="button"
+                            onClick={voice.start}
+                            className="flex w-full items-center justify-center gap-2 rounded-full border border-ink/15 bg-white px-4 py-3 text-sm font-semibold text-ink transition-colors hover:border-brand hover:text-brand active:scale-[0.98]"
+                          >
+                            <Microphone size={18} weight="bold" />
+                            Записать голосовое сообщение
+                          </button>
+                          <p className="mt-2 text-center text-xs leading-snug text-ink-soft">
+                            Можно надиктовать детали заказа — до 2 минут
+                          </p>
+                        </div>
+                      )}
+                      {voice.error && (
+                        <p role="alert" className="mt-2 text-sm text-brand">
+                          {voice.error}
+                        </p>
+                      )}
+                    </div>
+                  )}
+
                   <label className="flex cursor-pointer items-start gap-3 text-sm leading-snug text-ink-soft">
                     <input
                       type="checkbox"
@@ -304,7 +436,11 @@ export default function OrderModal() {
 
                   <button
                     type="submit"
-                    disabled={status === "sending"}
+                    disabled={
+                      status === "sending" ||
+                      voice.status === "recording" ||
+                      voice.status === "requesting"
+                    }
                     className="group flex w-full items-center justify-center gap-2 rounded-full bg-brand px-6 py-4 text-base font-semibold text-white transition-all duration-300 hover:bg-brand-deep active:scale-[0.98] disabled:cursor-wait disabled:opacity-70"
                   >
                     {status === "sending" ? "Отправляем…" : "Отправить заявку"}

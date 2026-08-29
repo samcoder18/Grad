@@ -3,6 +3,9 @@ dist
 dist-ssr
 *.local
 
+# Secrets — never commit the Telegram bot token
+.env
+
 # Debug / tooling artifacts
 .playwright-mcp
 .shots

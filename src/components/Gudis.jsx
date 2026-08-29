@@ -22,6 +22,30 @@ const variants = [
   },
 ];
 
+const composition = {
+  subtitle: "Гидрокарбонатная магниево-кальциевая, столовая питьевая",
+  groups: [
+    {
+      label: "Анионы, мг/дм³",
+      rows: [
+        ["Гидрокарбонаты HCO₃", "<300"],
+        ["Сульфаты SO₄", "<250"],
+        ["Хлориды Cl", "<50"],
+      ],
+    },
+    {
+      label: "Катионы, мг/дм³",
+      rows: [
+        ["Натрий + калий Na+K", "<100"],
+        ["Магний Mg", "<110"],
+        ["Кальций Ca", "<250"],
+      ],
+    },
+  ],
+  summary: ["Общая минерализация — 0,2–0,5 г/л", "Общая жёсткость — <3,4 мг/л"],
+  source: "Источник «ФаныкДон», Кобанское ущелье, Пригородный р-н, РСО-Алания",
+};
+
 const gallery = [
   {
     src: asset("img/gudis-1.webp"),
@@ -158,6 +182,37 @@ export default function Gudis() {
               </li>
             ))}
           </ul>
+          {/* Состав газированной воды — с этикетки */}
+          <div className="gudis-reveal mt-6 rounded-[24px] border border-white/12 bg-white/6 p-5 backdrop-blur-sm">
+            <p className="text-lg font-semibold">Состав газированной воды</p>
+            <p className="mt-1 text-sm leading-relaxed text-white/60">{composition.subtitle}</p>
+            <div className="mt-4 grid gap-x-6 gap-y-4 sm:grid-cols-2">
+              {composition.groups.map((g) => (
+                <div key={g.label}>
+                  <p className="text-xs font-semibold tracking-wide text-gudis uppercase">
+                    {g.label}
+                  </p>
+                  <ul
+                    className="mt-1.5 space-y-1 text-sm leading-snug text-white/85"
+                    style={{ fontVariantNumeric: "tabular-nums" }}
+                  >
+                    {g.rows.map(([name, value]) => (
+                      <li key={name} className="flex items-baseline justify-between gap-3">
+                        <span className="text-white/60">{name}</span>
+                        <span className="text-right font-semibold whitespace-nowrap">{value}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+            <ul className="mt-4 space-y-1 border-t border-white/12 pt-3 text-sm text-white/75">
+              {composition.summary.map((line) => (
+                <li key={line}>{line}</li>
+              ))}
+            </ul>
+            <p className="mt-3 text-xs leading-relaxed text-white/50">{composition.source}</p>
+          </div>
           <button
             type="button"
             onClick={openOrderModal}

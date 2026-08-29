@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { ArrowUpRight, Phone, Plus } from "@phosphor-icons/react";
+import { ArrowUpRight, Phone, Plus, WhatsappLogo } from "@phosphor-icons/react";
 import { contacts } from "../data/flavors.js";
 
 const ease = [0.16, 1, 0.3, 1];
@@ -173,18 +173,29 @@ export default function Faq() {
               Позвоните — поможем с ассортиментом, условиями и логистикой под
               вашу точку.
             </p>
-            <a
-              href={contacts.phoneHref}
-              className="group relative mt-6 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3.5 text-base font-semibold text-ink transition-all duration-300 hover:bg-paper active:scale-[0.98]"
-            >
-              <Phone size={18} weight="bold" />
-              {contacts.phone}
-              <ArrowUpRight
-                size={18}
-                weight="bold"
-                className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-              />
-            </a>
+            <div className="relative mt-6 flex items-center gap-2.5">
+              <a
+                href={contacts.phoneHref}
+                className="group inline-flex items-center gap-2 rounded-full bg-white px-6 py-3.5 text-base font-semibold text-ink transition-all duration-300 hover:bg-paper active:scale-[0.98]"
+              >
+                <Phone size={18} weight="bold" />
+                {contacts.phone}
+                <ArrowUpRight
+                  size={18}
+                  weight="bold"
+                  className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                />
+              </a>
+              <a
+                href={contacts.whatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Написать в WhatsApp"
+                className="inline-flex h-[52px] w-[52px] items-center justify-center rounded-full bg-white text-ink transition-all duration-300 hover:bg-paper active:scale-[0.98]"
+              >
+                <WhatsappLogo size={22} weight="bold" />
+              </a>
+            </div>
           </motion.div>
         </div>
 

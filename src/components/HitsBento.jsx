@@ -40,7 +40,7 @@ function ImageCell({ hit, className, delay }) {
       />
       <img
         src={hit.img}
-        alt={`Напиток ${hit.name}, 1 л`}
+        alt={`Напиток ${hit.name}, ${hit.sizes ?? "1 л"}`}
         loading="lazy"
         className="absolute inset-0 h-full w-full object-contain p-8 transition-transform duration-700 ease-out group-hover:scale-105"
       />
@@ -51,7 +51,7 @@ function ImageCell({ hit, className, delay }) {
             <h3 className="font-display text-2xl font-bold tracking-tight text-white md:text-3xl">
               {hit.name}
             </h3>
-            <span className="text-sm font-semibold text-white/65">1 л ПЭТ</span>
+            <span className="text-sm font-semibold text-white/65">{hit.sizes ?? "1 л ПЭТ"}</span>
           </div>
           <p className="mt-1.5 max-w-[34ch] text-sm leading-relaxed text-white/85">{hit.text}</p>
         </div>
@@ -96,7 +96,7 @@ export default function HitsBento() {
         >
           Литровые хиты
           <HeadlinePill src={asset("img/orange.webp")} position="center 30%" />
-          Dolce
+          Dol4e
           <HeadlinePill src={asset("img/mojito.webp")} position="center 44%" />
           кончаются первыми
         </motion.h2>
@@ -108,7 +108,7 @@ export default function HitsBento() {
           className="mt-6 max-w-[52ch] text-lg leading-relaxed text-ink-soft"
         >
           Cola, Mojito, Orange и Lime в литровом ПЭТ: самые оборачиваемые позиции
-          линейки Dolce.
+          линейки Dol4e.
         </motion.p>
 
         <div className="mt-10 grid grid-flow-dense grid-cols-1 gap-4 sm:grid-cols-2 sm:auto-rows-[260px] md:mt-14 lg:grid-cols-6 lg:auto-rows-[280px]">
@@ -131,7 +131,7 @@ export default function HitsBento() {
               }}
             />
             <span className="relative font-display text-5xl font-bold tracking-tight text-white md:text-6xl">
-              1 л
+              1 л / 2 л
             </span>
             <div className="relative">
               <p className="font-display text-2xl font-bold tracking-tight text-balance text-white md:text-[1.7rem]">

@@ -37,13 +37,6 @@ export const flavors = [
     text: "Свежий лайм, мята и приятная газированность. Летний хит круглый год.",
   },
   {
-    id: "pitahaya",
-    name: "Питахайа",
-    img: asset("img/pitahaya.webp"),
-    color: "var(--color-pitahaya)",
-    text: "Экзотический вкус драконьего фрукта. Яркий выбор для тех, кто любит новинки.",
-  },
-  {
     id: "tarragon",
     name: "Тархун",
     img: asset("img/tarragon.webp"),
@@ -55,10 +48,11 @@ export const flavors = [
 export const hits = [
   {
     id: "cola",
-    name: "Dolce Cola",
+    name: "Dol4e Cola",
     img: asset("img/cola.webp"),
     color: "var(--color-cola)",
     text: "Глубокий карамельный вкус с фирменной газированностью.",
+    sizes: "1 л / 2 л ПЭТ",
   },
   {
     id: "mojito",
@@ -83,7 +77,7 @@ export const hits = [
   },
 ];
 
-// Фасовка стеклянной линейки — одинакова для всех семи вкусов карусели.
+// Фасовка стеклянной линейки — одинакова для всех шести вкусов карусели.
 export const glassPackaging = {
   spec: "0,5 л · стекло · 12 шт в упаковке",
   pallets: [
@@ -92,7 +86,7 @@ export const glassPackaging = {
   ],
 };
 
-// Фасовка литровых хитов Dolce (бенто-блок).
+// Фасовка литровых хитов Dol4e (бенто-блок).
 export const hitsPackaging = {
   spec: "1 л · ПЭТ · 9 шт в упаковке",
   pallets: [
@@ -106,4 +100,12 @@ export const contacts = {
   phoneHref: "tel:+79931837444",
   email: "gudis_goodies@mail.ru",
   whatsapp: "https://wa.me/79931837444",
+};
+
+// Реквизиты совпадают с разделом «Оператор» в политике конфиденциальности.
+export const legal = {
+  name: "ИП Хубаев Алан Юрьевич",
+  inn: "151307338935",
+  ogrnip: "323150000014240",
+  address: "362045, РСО-Алания, г. Владикавказ, ул. Владикавказская, 48",
 };

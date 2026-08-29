@@ -7,7 +7,7 @@ import {
   useSpring,
   useTransform,
 } from "motion/react";
-import { List, X, ArrowUpRight, Buildings } from "@phosphor-icons/react";
+import { List, X, ArrowUpRight } from "@phosphor-icons/react";
 import { openOrderModal } from "../lib/order-modal.js";
 import { asset } from "../lib/asset.js";
 
@@ -19,7 +19,7 @@ const links = [
   { href: "#contacts", label: "Контакты" },
 ];
 
-export default function Nav({ onEnterOffice }) {
+export default function Nav() {
   const [open, setOpen] = useState(false);
   const reduce = useReducedMotion();
 
@@ -74,14 +74,6 @@ export default function Nav({ onEnterOffice }) {
         <div className="flex items-center gap-2">
           <button
             type="button"
-            onClick={onEnterOffice}
-            className="group hidden items-center gap-1.5 rounded-full border border-ink/15 bg-white/60 px-5 py-2.5 text-sm font-semibold text-ink transition-all duration-300 hover:border-brand hover:text-brand active:scale-[0.98] sm:inline-flex"
-          >
-            <Buildings size={16} weight="bold" aria-hidden="true" />
-            Офис
-          </button>
-          <button
-            type="button"
             onClick={openOrderModal}
             className="group hidden items-center gap-1.5 rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-brand-deep active:scale-[0.98] sm:inline-flex"
           >
@@ -124,19 +116,6 @@ export default function Nav({ onEnterOffice }) {
                   </a>
                 </li>
               ))}
-              <li>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setOpen(false);
-                    onEnterOffice();
-                  }}
-                  className="flex w-full items-center gap-2 rounded-2xl px-4 py-3 text-left text-base font-medium text-ink transition-colors hover:bg-paper"
-                >
-                  <Buildings size={18} aria-hidden="true" />
-                  Виртуальный офис
-                </button>
-              </li>
               <li className="pt-2">
                 <button
                   type="button"

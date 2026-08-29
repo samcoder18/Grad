@@ -1,5 +1,5 @@
 import { WhatsappLogo, EnvelopeSimple } from "@phosphor-icons/react";
-import { contacts } from "../data/flavors.js";
+import { contacts, legal } from "../data/flavors.js";
 import { asset } from "../lib/asset.js";
 
 const links = [
@@ -8,6 +8,29 @@ const links = [
   { href: "#gudis", label: "Гудис" },
   { href: "#about", label: "О компании" },
   { href: "#contacts", label: "Контакты" },
+];
+
+const docs = [
+  {
+    href: asset("docs/deklaraciya-voda-gudis.pdf"),
+    label: "Декларация соответствия — вода «Гудис»",
+    file: "deklaraciya-voda-gudis.pdf",
+  },
+  {
+    href: asset("docs/deklaraciya-napitki-dolche.pdf"),
+    label: "Декларация соответствия — напитки «Сладкий Град»",
+    file: "deklaraciya-napitki-dolche.pdf",
+  },
+  {
+    href: asset("docs/egrip-list-zapisi.pdf"),
+    label: "Лист записи ЕГРИП",
+    file: "egrip-list-zapisi.pdf",
+  },
+  {
+    href: asset("docs/svidetelstvo-tovarnyj-znak.pdf"),
+    label: "Свидетельство на товарный знак",
+    file: "svidetelstvo-tovarnyj-znak.pdf",
+  },
 ];
 
 export default function Footer() {
@@ -53,12 +76,36 @@ export default function Footer() {
             <p className="mt-1 text-ink-soft">
               Производство и оптовые поставки напитков
             </p>
+            <p className="mt-4 text-xs leading-relaxed text-ink-soft/80">
+              {legal.name} · ИНН {legal.inn} · ОГРНИП {legal.ogrnip}
+              <br />
+              Юр. адрес: {legal.address}
+            </p>
             <a
               href="#privacy"
               className="mt-3 inline-block text-ink-soft underline-offset-4 transition-colors hover:text-ink hover:underline"
             >
               Политика обработки персональных данных
             </a>
+          </div>
+
+          <div className="text-sm">
+            <p className="font-medium text-ink">Документы</p>
+            <ul className="mt-3 space-y-2">
+              {docs.map((d) => (
+                <li key={d.href}>
+                  <a
+                    href={d.href}
+                    download={d.file}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-ink-soft underline-offset-4 transition-colors hover:text-ink hover:underline"
+                  >
+                    {d.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
 
           <nav aria-label="Нижняя навигация" className="md:text-right">

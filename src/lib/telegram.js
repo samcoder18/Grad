@@ -1,4 +1,5 @@
-// Sends the order form straight to a Telegram chat via the Bot API.
+// Sends the order form straight to a Telegram chat via the Bot API, plus an
+// optional voice message recorded in the browser (sendVoice below).
 //
 // Config lives in .env (see .env.example):
 //   VITE_TELEGRAM_BOT_TOKEN — token from @BotFather
@@ -16,7 +17,18 @@ const escapeHtml = (s) =>
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
 
-export async function sendOrder({ name, phone, business, volume, city }) {
+// Local timestamp for the message footer (Moscow time, the team is there).
+const orderTimestamp = () =>
+  new Date().toLocaleString("ru-RU", {
+    timeZone: "Europe/Moscow",
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+export async function sendOrder({ name, phone, business, volume, city, hasVoice }) {
   if (!BOT_TOKEN || !CHAT_ID) {
     throw new Error(
       "Telegram is not configured: set VITE_TELEGRAM_BOT_TOKEN and VITE_TELEGRAM_CHAT_ID in .env",
@@ -24,13 +36,16 @@ export async function sendOrder({ name, phone, business, volume, city }) {
   }
 
   const text = [
-    "<b>Новая заявка — Сладкий Град</b>",
+    "🍋 <b>Новая заявка — Сладкий Град</b>",
     "",
-    `<b>Имя:</b> ${escapeHtml(name)}`,
-    `<b>Телефон:</b> ${escapeHtml(phone)}`,
-    `<b>Тип бизнеса:</b> ${escapeHtml(business)}`,
-    volume ? `<b>Интересующий объём:</b> ${escapeHtml(volume)}` : null,
-    `<b>Город:</b> ${escapeHtml(city)}`,
+    `👤 <b>Имя:</b> ${escapeHtml(name)}`,
+    `📞 <b>Телефон:</b> ${escapeHtml(phone)}`,
+    `🏢 <b>Тип бизнеса:</b> ${escapeHtml(business)}`,
+    volume ? `📦 <b>Объём:</b> ${escapeHtml(volume)}` : null,
+    `📍 <b>Город:</b> ${escapeHtml(city)}`,
+    hasVoice ? "🎙 <b>Голосовое:</b> прикреплено ниже" : null,
+    "",
+    `<i>🕐 ${orderTimestamp()} (МСК)</i>`,
   ]
     .filter(Boolean)
     .join("\n");
@@ -43,6 +58,42 @@ export async function sendOrder({ name, phone, business, volume, city }) {
       text,
       parse_mode: "HTML",
     }),
+  });
+
+  if (!res.ok) {
+    throw new Error(`Telegram API responded with ${res.status}`);
+  }
+}
+
+const EXT_BY_TYPE = {
+  "audio/webm": "webm",
+  "audio/ogg": "ogg",
+  "audio/mp4": "m4a",
+};
+
+// Sends the recorded voice message as an audio file. Uses sendAudio (not
+// sendVoice) because it accepts the containers browsers actually record
+// (webm/opus in Chrome, ogg in Firefox, mp4 in Safari).
+export async function sendVoice(blob, caption) {
+  if (!BOT_TOKEN || !CHAT_ID) {
+    throw new Error(
+      "Telegram is not configured: set VITE_TELEGRAM_BOT_TOKEN and VITE_TELEGRAM_CHAT_ID in .env",
+    );
+  }
+
+  const baseType = (blob.type || "audio/webm").split(";")[0];
+  const ext = EXT_BY_TYPE[baseType] || "webm";
+
+  const data = new FormData();
+  data.append("chat_id", CHAT_ID);
+  data.append("audio", blob, `voice.${ext}`);
+  data.append("caption", caption);
+  data.append("title", "Голосовое к заявке — Сладкий Град");
+  data.append("parse_mode", "HTML");
+
+  const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendAudio`, {
+    method: "POST",
+    body: data,
   });
 
   if (!res.ok) {

@@ -10,7 +10,7 @@ const TEXT =
 
 const stats = [
   { value: "2023", label: "год основания" },
-  { value: "7+", label: "вкусов в линейке" },
+  { value: "9+", label: "вкусов в линейке" },
   { value: "50 ₽", label: "оптовая цена от, за бутылку" },
 ];
 
@@ -135,8 +135,8 @@ export default function Manifesto() {
         </div>
 
         <div className="manifesto-stats mt-12 grid grid-cols-1 gap-8 border-t border-line pt-10 sm:grid-cols-3 md:mt-20 md:pt-12">
-          {stats.map((s) => (
-            <div key={s.label} className="manifesto-stat">
+          {stats.map((s, i) => (
+            <div key={s.label} className={`manifesto-stat${i === 1 ? " sm:text-center" : ""}`}>
               <span className="block font-display text-5xl font-bold tracking-tight text-brand md:text-7xl">
                 {s.value}
               </span>
