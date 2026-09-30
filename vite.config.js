@@ -3,7 +3,7 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
-  // GitHub Pages serves the site from /Grad/
-  base: "/Grad/",
+  // The custom domain serves the site from the domain root.
+  base: "/",
   plugins: [react(), tailwindcss()],
 });
