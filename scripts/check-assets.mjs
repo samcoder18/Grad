@@ -4,7 +4,7 @@ import path from "node:path";
 const root = process.cwd();
 const publicDir = path.join(root, "public");
 const MAX_IMAGE_BYTES = 512 * 1024;
-// Supplied carousel and Dolce bottle PNGs retain their original source pixels.
+// Supplied carousel, Dolce and Gudis PNGs retain their original source pixels.
 // Their dedicated budget avoids lossy recompression of the supplied artwork.
 const MAX_SOURCE_BOTTLE_BYTES = 4 * 1024 * 1024;
 const sourceBottleImages = new Set([
@@ -22,6 +22,9 @@ const sourceBottleImages = new Set([
   "img/dolce-mojito.png",
   "img/dolce-orange.png",
   "img/dolce-lime.png",
+  "img/gudis-glass.png",
+  "img/gudis-pet-1l.png",
+  "img/gudis-pet-05l.png",
 ]);
 
 async function filesIn(directory) {
