@@ -127,7 +127,7 @@ export default function Gudis() {
     <section
       id="gudis"
       ref={ref}
-      className="relative overflow-x-clip py-24 text-white md:py-48"
+      className="site-section relative overflow-x-clip text-white"
       style={{
         background: "linear-gradient(168deg, #061826 0%, #0b2f4a 45%, #104061 100%)",
       }}
@@ -140,11 +140,11 @@ export default function Gudis() {
             "radial-gradient(46rem 34rem at 72% 16%, rgba(18,135,212,0.30), transparent 62%), radial-gradient(38rem 28rem at 10% 84%, rgba(18,135,212,0.16), transparent 60%), radial-gradient(30rem 22rem at 42% 56%, rgba(84,180,235,0.10), transparent 60%)",
         }}
       />
-      <div className="gudis-layout relative mx-auto grid max-w-7xl items-start gap-14 px-4 sm:px-6 lg:grid-cols-12">
+      <div className="gudis-layout site-container relative grid items-start gap-14 lg:grid-cols-12">
         {/* Sticky split (desktop): the story column sticks below the nav
             while the taller gallery scrolls past it. */}
-        <div className="gudis-pin lg:sticky lg:top-28 lg:col-span-5">
-          <h2 className="gudis-reveal font-display text-3xl font-bold tracking-tight text-balance md:text-6xl">
+        <div className="gudis-pin min-w-0 lg:sticky lg:top-28 lg:col-span-5">
+          <h2 className="gudis-reveal font-display text-3xl font-bold tracking-tight text-balance md:text-6xl lg:text-[clamp(2rem,3.3vw,2.875rem)]">
             <span className="text-gudis">Gudis</span>:
             <br />
             вода Центрального Кавказа
@@ -157,7 +157,7 @@ export default function Gudis() {
             {variants.map((v) => (
               <li
                 key={v.title}
-                className="flex items-start gap-4 rounded-[24px] border border-white/12 bg-white/6 p-5 backdrop-blur-sm"
+                className="flex flex-col items-start gap-4 rounded-[24px] sm:flex-row border border-white/12 bg-white/6 p-5 backdrop-blur-sm"
               >
                 <span className="mt-0.5 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gudis/25 text-gudis">
                   <v.icon size={22} weight="bold" />
@@ -186,7 +186,7 @@ export default function Gudis() {
           <div className="gudis-reveal mt-6 rounded-[24px] border border-white/12 bg-white/6 p-5 backdrop-blur-sm">
             <p className="text-lg font-semibold">Состав газированной воды</p>
             <p className="mt-1 text-sm leading-relaxed text-white/60">{composition.subtitle}</p>
-            <div className="mt-4 grid gap-x-6 gap-y-4 sm:grid-cols-2">
+            <div className="mt-4 grid gap-x-6 gap-y-4 sm:grid-cols-2 lg:grid-cols-1">
               {composition.groups.map((g) => (
                 <div key={g.label}>
                   <p className="text-xs font-semibold tracking-wide text-gudis uppercase">
@@ -197,7 +197,7 @@ export default function Gudis() {
                     style={{ fontVariantNumeric: "tabular-nums" }}
                   >
                     {g.rows.map(([name, value]) => (
-                      <li key={name} className="flex items-baseline justify-between gap-3">
+                      <li key={name} className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
                         <span className="text-white/60">{name}</span>
                         <span className="text-right font-semibold whitespace-nowrap">{value}</span>
                       </li>

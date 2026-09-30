@@ -40,14 +40,15 @@ export function LocationMap({
     setIsHovered(false);
   };
 
-  const handleClick = () => {
-    setIsExpanded(!isExpanded);
-  };
+  const handleClick = () => setIsExpanded((expanded) => !expanded);
 
   return (
-    <motion.div
+    <motion.button
+      type="button"
       ref={containerRef}
-      className={`relative cursor-pointer select-none ${className ?? ""}`}
+      aria-expanded={isExpanded}
+      aria-label={`${isExpanded ? "Свернуть" : "Развернуть"} карту: ${location}`}
+      className={`relative block cursor-pointer select-none border-0 bg-transparent p-0 text-left font-[inherit] ${className ?? ""}`}
       style={{
         perspective: 1000,
       }}
@@ -325,15 +326,15 @@ export function LocationMap({
 
           {/* Bottom section */}
           <div className="space-y-1">
-            <motion.h3
-              className="text-sm font-medium tracking-tight text-ink"
+            <motion.span
+              className="block text-sm font-medium tracking-tight text-ink"
               animate={{
                 x: isHovered ? 4 : 0,
               }}
               transition={{ type: "spring", stiffness: 400, damping: 25 }}
             >
               {location}
-            </motion.h3>
+            </motion.span>
 
             <AnimatePresence>
               {isExpanded && (
@@ -363,8 +364,9 @@ export function LocationMap({
       </motion.div>
 
       {/* Click hint */}
-      <motion.p
-        className="absolute -bottom-6 left-1/2 text-[10px] whitespace-nowrap text-ink-soft"
+      <motion.span
+        aria-hidden="true"
+        className="absolute -bottom-6 left-1/2 block text-[10px] whitespace-nowrap text-ink-soft"
         style={{ x: "-50%" }}
         initial={{ opacity: 0 }}
         animate={{
@@ -374,7 +376,7 @@ export function LocationMap({
         transition={{ duration: 0.2 }}
       >
         Нажмите, чтобы развернуть
-      </motion.p>
-    </motion.div>
+      </motion.span>
+    </motion.button>
   );
 }

@@ -1,5 +1,4 @@
-import "@fontsource-variable/unbounded";
-import "@fontsource-variable/onest";
+import "./fonts.css";
 import "./index.css";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";

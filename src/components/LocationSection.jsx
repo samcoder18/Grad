@@ -27,8 +27,8 @@ export default function LocationSection() {
   });
 
   return (
-    <section id="location" className="px-4 pb-20 sm:px-6 md:pb-28">
-      <div className="mx-auto flex max-w-7xl flex-col items-center gap-12">
+    <section id="location" className="site-section">
+      <div className="site-container flex flex-col items-center gap-12">
         <div className="text-center">
           <motion.p
             {...rise(0)}
@@ -58,7 +58,7 @@ export default function LocationSection() {
           {options.map((o) => (
             <div
               key={o.title}
-              className="flex items-start gap-4 rounded-[24px] border border-line bg-white p-6 text-left"
+              className="flex flex-col items-start gap-4 rounded-[24px] md:flex-row border border-line bg-white p-6 text-left"
             >
               <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand/10 text-brand">
                 <o.icon size={22} weight="bold" />
@@ -70,7 +70,7 @@ export default function LocationSection() {
                   {o.link && (
                     <a
                       href={o.link.href}
-                      className="font-medium whitespace-nowrap text-ink underline-offset-4 transition-colors hover:text-brand hover:underline"
+                      className="inline-block font-medium whitespace-nowrap text-ink underline-offset-4 transition-colors hover:text-brand hover:underline"
                     >
                       {o.link.label}
                     </a>

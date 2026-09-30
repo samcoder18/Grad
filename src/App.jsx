@@ -5,7 +5,9 @@ import Marquee from "./components/Marquee.jsx";
 import FlavorAccordion from "./components/FlavorAccordion.jsx";
 import HitsBento from "./components/HitsBento.jsx";
 import Manifesto from "./components/Manifesto.jsx";
+import Production from "./components/Production.jsx";
 import Gudis from "./components/Gudis.jsx";
+import Esarom from "./components/Esarom.jsx";
 import Faq from "./components/Faq.jsx";
 import Cta from "./components/Cta.jsx";
 import LocationSection from "./components/LocationSection.jsx";
@@ -47,7 +49,9 @@ export default function App() {
       <FlavorAccordion />
       <HitsBento />
       <Manifesto />
+      <Production />
       <Gudis />
+      <Esarom />
       <Faq />
       <Cta />
       <LocationSection />

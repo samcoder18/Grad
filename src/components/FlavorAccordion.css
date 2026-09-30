@@ -1,0 +1,72 @@
+.flavor-showcase { background: var(--color-paper); }
+.flavor-header { margin-bottom: 30px; }
+.flavor-cinema { position: relative; isolation: isolate; overflow: hidden; border-radius: var(--radius-card); background: #17191c; color: #fff; }
+.flavor-atmosphere, .flavor-atmosphere__layer { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.flavor-atmosphere__layer { opacity: 0; background: radial-gradient(ellipse 65% 66% at 50% 46%, color-mix(in srgb, var(--scene-color) 58%, #c9bd9b), transparent 80%), linear-gradient(160deg, #17191c, color-mix(in srgb, var(--scene-color) 18%, #17191c)); transition: opacity 1s ease; }
+.flavor-atmosphere__layer.is-active { opacity: 1; }
+.flavor-story { position: relative; z-index: 4; padding: 34px 28px 0; text-align: center; }
+.flavor-story h3 { margin: 0; font-family: var(--font-display); font-size: clamp(32px, 4.3vw, 58px); font-weight: 700; line-height: 1.2; letter-spacing: -.05em; animation: flavor-story-in .65s ease both; }
+.flavor-art { position: relative; height: 590px; margin-top: 20px; touch-action: pan-y; }
+.flavor-floor { position: absolute; left: 50%; bottom: 0; width: 54%; height: 9%; border-radius: 50%; background: radial-gradient(ellipse, #0007, transparent 70%); filter: blur(8px); transform: translateX(-50%); }
+.flavor-bottle { position: absolute; bottom: 2%; left: 50%; height: 95%; aspect-ratio: 941 / 1672; transform-origin: 50% 80%; transition: transform .85s cubic-bezier(.22,1,.36,1), opacity .75s, filter .85s; will-change: transform; }
+.flavor-bottle--center { z-index: 3; opacity: 1; transform: translateX(-50%); filter: drop-shadow(0 22px 20px #0005); }
+.flavor-bottle--left { z-index: 1; opacity: .55; transform: translateX(-143%) translateY(-10%) scale(.6) rotate(-9deg); filter: brightness(.85); }
+.flavor-bottle--right { z-index: 1; opacity: .55; transform: translateX(43%) translateY(-10%) scale(.6) rotate(9deg); filter: brightness(.85); }
+.flavor-bottle--hidden { z-index: 0; opacity: 0; transform: translateX(-50%) translateY(-8%) scale(.35); pointer-events: none; }
+.flavor-bottle__float { width: 100%; height: 100%; }
+.flavor-bottle--center .flavor-bottle__float { animation: flavor-suspended 7s ease-in-out infinite; }
+.flavor-bottle img { display: block; width: 100%; height: 100%; object-fit: contain; user-select: none; }
+.flavor-bottle__select { position: absolute; inset: 0; border: 0; cursor: pointer; background: transparent; }
+.flavor-bottle:has(.flavor-bottle__select:hover) { opacity: .8; }
+.flavor-detail { position: relative; z-index: 4; display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 25px 36px 36px; }
+.flavor-description { max-width: 570px; margin: 0; color: #ffffffe0; font-size: 20px; line-height: 1.6; }
+.flavor-order { flex: none; }
+.flavor-footer { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 48px; align-items: center; padding: 32px 0 0; }
+.flavor-navigation { display: flex; flex-direction: column; align-items: flex-start; gap: 18px; }
+.flavor-controls { display: flex; align-items: center; gap: 15px; }
+.flavor-arrow, .flavor-pause { display: flex; align-items: center; justify-content: center; flex: none; height: 52px; width: 52px; padding: 0; border: 1px solid var(--color-line); border-radius: 50%; background: #fff; color: var(--color-ink); cursor: pointer; transition: background .2s, border-color .2s; }
+.flavor-arrow:hover, .flavor-pause:hover { background: #e8ece7; border-color: #bac2ba; }
+.flavor-pause { width: 44px; height: 44px; border: 0; background: transparent; }
+.flavor-counter { display: flex; gap: 8px; align-items: baseline; font-size: 16px; font-variant-numeric: tabular-nums; color: var(--color-ink-soft); }
+.flavor-counter strong { font-size: 28px; font-weight: 500; color: var(--color-ink); }
+.flavor-choice { min-width: 200px; max-width: 100%; min-height: 48px; padding: 8px 34px 8px 16px; border: 1px solid var(--color-line); border-radius: 24px; color: var(--color-ink); background: #fff; font: inherit; font-size: 16px; cursor: pointer; }
+.flavor-packaging { min-width: 0; padding-left: 36px; border-left: 1px solid var(--color-line); }
+.flavor-packaging > p { margin: 0 0 17px; font-size: 20px; font-weight: 600; line-height: 1.45; }
+.flavor-packaging dl { display: grid; gap: 12px; margin: 0; font-size: 16px; line-height: 1.6; font-variant-numeric: tabular-nums; }
+.flavor-packaging dl > div { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 20px; }
+.flavor-packaging dt { color: var(--color-ink-soft); }
+.flavor-packaging dd { margin: 0; font-weight: 500; }
+.flavor-showcase :focus-visible { outline: 3px solid var(--color-brand); outline-offset: 4px; }
+@keyframes flavor-story-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes flavor-suspended { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+@media (max-width: 900px) {
+  .flavor-art { height: 530px; }
+  .flavor-detail { flex-direction: column; gap: 24px; text-align: center; }
+  .flavor-description { font-size: 18px; max-width: 590px; }
+  .flavor-footer { gap: 30px; }
+  .flavor-packaging { padding-left: 26px; }
+  .flavor-packaging > p { font-size: 18px; }
+  .flavor-packaging dl > div { flex-direction: column; }
+}
+@media (max-width: 600px) {
+  .flavor-header { margin-bottom: 24px; }
+  .flavor-cinema { border-radius: 24px; }
+  .flavor-story { padding: 28px 20px 0; }
+  .flavor-story h3 { font-size: clamp(27px, 7.3vw, 38px); }
+  .flavor-art { height: clamp(355px, 98vw, 465px); margin-top: 22px; }
+  .flavor-bottle--left { transform: translateX(-109%) translateY(-10%) scale(.54) rotate(-9deg); opacity: .42; }
+  .flavor-bottle--right { transform: translateX(9%) translateY(-10%) scale(.54) rotate(9deg); opacity: .42; }
+  .flavor-detail { padding: 20px 22px 28px; gap: 24px; }
+  .flavor-description { font-size: 18px; }
+  .flavor-order { width: 100%; max-width: 320px; }
+  .flavor-footer { grid-template-columns: minmax(0, 1fr); gap: 26px; padding-top: 25px; }
+  .flavor-navigation { align-items: center; gap: 18px; }
+  .flavor-controls { gap: 12px; }
+  .flavor-choice { width: 100%; }
+  .flavor-packaging { border-left: 0; border-top: 1px solid var(--color-line); padding: 24px 0 0; }
+  .flavor-packaging > p { font-size: 19px; }
+  .flavor-packaging dl { font-size: 16px; gap: 17px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .flavor-showcase *, .flavor-showcase *::before, .flavor-showcase *::after { animation: none !important; transition: none !important; }
+}

@@ -41,8 +41,8 @@ export default function Cta() {
   const panelInView = useInView(panelRef, { once: true, amount: 0.3 });
 
   return (
-    <section id="contacts" className="relative px-4 py-16 sm:px-6 md:py-24">
-      <div ref={panelRef} className="relative mx-auto max-w-7xl overflow-hidden rounded-[36px] bg-brand px-6 py-20 text-white md:px-16 md:py-28">
+    <section id="contacts" className="site-section relative">
+      <div ref={panelRef} className="site-container relative overflow-hidden rounded-[28px] bg-brand px-6 py-20 text-white md:px-16 md:py-28">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0"
@@ -71,7 +71,7 @@ export default function Cta() {
             <button
               type="button"
               onClick={openOrderModal}
-              className="group flex items-center justify-center gap-2 rounded-full bg-white px-7 py-4 text-base font-semibold text-brand transition-all duration-300 hover:bg-paper active:scale-[0.98] sm:inline-flex"
+              className="group flex flex-wrap items-center justify-center gap-2 rounded-full bg-white px-7 py-4 text-base font-semibold text-brand transition-all duration-300 hover:bg-paper active:scale-[0.98] sm:inline-flex"
             >
               Оформить заказ
               <ArrowUpRight
@@ -82,7 +82,7 @@ export default function Cta() {
             </button>
             <a
               href={contacts.phoneHref}
-              className="flex items-center justify-center gap-2 rounded-full border border-white/40 px-7 py-4 text-base font-semibold text-white transition-colors duration-300 hover:border-white active:scale-[0.98] sm:inline-flex"
+              className="flex items-center justify-center gap-2 rounded-full border border-white/40 px-4 py-4 text-base font-semibold text-white transition-colors duration-300 hover:border-white active:scale-[0.98] sm:inline-flex sm:px-7"
             >
               <Phone size={18} weight="bold" />
               {contacts.phone}
@@ -105,7 +105,7 @@ export default function Cta() {
           red/white seam and the fruits can dive in from above the screen */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-4 top-16 bottom-16 mx-auto max-w-7xl sm:inset-x-6 md:top-24 md:bottom-24"
+        className="pointer-events-none absolute inset-x-4 top-16 bottom-16 mx-auto max-w-[1104px] sm:inset-x-6 md:top-24 md:bottom-24"
       >
         {/* Bolt: enlarged, tilted harder, sitting on the top seam */}
         <div className="absolute -top-10 right-[2%] hidden rotate-[14deg] sm:block md:-top-14 md:right-[3%]">
@@ -116,13 +116,6 @@ export default function Cta() {
             style={{ animationDelay: "0.4s" }}
           />
         </div>
-        {/* Cloud: hovers at the opposite top edge */}
-        <img
-          src={asset("img/deco-cloud.webp")}
-          alt=""
-          className="absolute top-[1%] left-[1%] hidden w-20 animate-float drop-shadow-[0_20px_28px_rgba(11,47,74,0.28)] sm:block md:w-24 lg:w-28"
-          style={{ animationDelay: "1.2s" }}
-        />
         {/* Fruits: drop from the top of the screen, bounce once, land
             along the bottom of the block */}
         <motion.div

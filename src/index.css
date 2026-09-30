@@ -3,6 +3,14 @@
 @theme {
   --font-display: "Unbounded Variable", "Onest Variable", system-ui, sans-serif;
   --font-sans: "Onest Variable", system-ui, sans-serif;
+  --text-xs: 0.875rem;
+  --text-xs--line-height: 1.55;
+  --text-sm: 1rem;
+  --text-sm--line-height: 1.55;
+  --text-base: 1.125rem;
+  --text-base--line-height: 1.6;
+  --text-lg: 1.25rem;
+  --text-lg--line-height: 1.55;
 
   /* Page tokens: single light theme, one locked accent (brand crimson) */
   --color-paper: #f7f8f6;
@@ -71,6 +79,24 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Shared editorial grid and type, established by the production section. */
+.site-section { padding: 76px 24px 96px; scroll-margin-top: 116px; }
+.site-container { width: 100%; max-width: 1104px; margin-inline: auto; }
+.section-label-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px 24px; }
+.section-label { margin: 0; color: var(--color-ink-soft); font-size: 14px; font-weight: 600; line-height: 1.6; letter-spacing: .16em; text-transform: uppercase; }
+.section-pill { flex: none; padding: 8px 14px; border: 1px solid var(--color-line); border-radius: 999px; color: var(--color-ink-soft); font-size: 16px; line-height: 1.5; white-space: nowrap; }
+.site-order-button { display: inline-flex; align-items: center; justify-content: center; gap: 16px; min-height: 56px; padding: 14px 24px; border: 0; border-radius: 999px; background: var(--color-brand); color: #fff; font-size: 18px; font-weight: 600; line-height: 1.4; text-decoration: none; cursor: pointer; transition: background .25s, transform .25s; }
+.site-order-button svg { flex: none; }
+.site-order-button:hover { background: var(--color-brand-deep); }
+.site-order-button:active { transform: scale(.98); }
+.site-order-button:focus-visible { outline: 3px solid var(--color-brand); outline-offset: 4px; }
+@media (max-width: 640px) {
+  .site-section { padding: 52px 16px 64px; scroll-margin-top: 100px; }
+  .section-label { font-size: 14px; letter-spacing: .12em; }
+  .section-label-row { gap: 14px; }
+  .site-order-button { padding-inline: 20px; }
+}
+
 /* Web-glass approximation (not Apple Liquid Glass): blur + saturation,
    inner highlight edges, tinted shadow. */
 .glass-panel {
@@ -93,16 +119,6 @@ body {
 ::selection {
   background: var(--color-brand);
   color: #fff;
-}
-
-/* Autoplay progress line in the flavors carousel */
-@keyframes flavor-progress {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

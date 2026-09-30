@@ -1,5 +1,5 @@
 import { WhatsappLogo, EnvelopeSimple } from "@phosphor-icons/react";
-import { contacts, legal } from "../data/flavors.js";
+import { contacts, docs, legal } from "../data/flavors.js";
 import { asset } from "../lib/asset.js";
 
 const links = [
@@ -10,33 +10,10 @@ const links = [
   { href: "#contacts", label: "Контакты" },
 ];
 
-const docs = [
-  {
-    href: asset("docs/deklaraciya-voda-gudis.pdf"),
-    label: "Декларация соответствия — вода «Гудис»",
-    file: "deklaraciya-voda-gudis.pdf",
-  },
-  {
-    href: asset("docs/deklaraciya-napitki-dolche.pdf"),
-    label: "Декларация соответствия — напитки «Сладкий Град»",
-    file: "deklaraciya-napitki-dolche.pdf",
-  },
-  {
-    href: asset("docs/egrip-list-zapisi.pdf"),
-    label: "Лист записи ЕГРИП",
-    file: "egrip-list-zapisi.pdf",
-  },
-  {
-    href: asset("docs/svidetelstvo-tovarnyj-znak.pdf"),
-    label: "Свидетельство на товарный знак",
-    file: "svidetelstvo-tovarnyj-znak.pdf",
-  },
-];
-
 export default function Footer() {
   return (
-    <footer className="border-t border-line">
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:py-16">
+    <footer className="border-t border-line px-4 sm:px-6">
+      <div className="site-container py-12 md:py-16">
         {/* Top row: logo + contact buttons */}
         <div className="flex items-center justify-between gap-6">
           <a href="#top" className="inline-flex items-center gap-3">
@@ -70,8 +47,8 @@ export default function Footer() {
         <div className="my-8 border-t border-line md:my-10" />
 
         {/* Bottom row: copyright + nav */}
-        <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
-          <div className="text-sm leading-relaxed">
+        <div className="grid gap-8 md:grid-cols-[1.2fr_1fr_1.2fr]">
+          <div className="min-w-0 text-sm leading-relaxed">
             <p className="font-medium text-ink">© 2026 Сладкий Град</p>
             <p className="mt-1 text-ink-soft">
               Производство и оптовые поставки напитков
@@ -89,7 +66,7 @@ export default function Footer() {
             </a>
           </div>
 
-          <div className="text-sm">
+          <div className="min-w-0 text-sm">
             <p className="font-medium text-ink">Документы</p>
             <ul className="mt-3 space-y-2">
               {docs.map((d) => (

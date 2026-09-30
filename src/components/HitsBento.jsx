@@ -3,61 +3,65 @@ import { motion, useReducedMotion, useScroll, useTransform, useMotionTemplate } 
 import { ArrowUpRight } from "@phosphor-icons/react";
 import { openOrderModal } from "../lib/order-modal.js";
 import { hits, hitsPackaging } from "../data/flavors.js";
-import { asset } from "../lib/asset.js";
+import "./HitsBento.css";
 
 const ease = [0.16, 1, 0.3, 1];
 
-// Pill-shaped product shots embedded directly in the headline.
-function HeadlinePill({ src, position }) {
-  return (
-    <span
-      aria-hidden
-      className="mx-1.5 inline-block h-[0.74em] w-[1.8em] rounded-full bg-cover align-[-0.1em] md:mx-2.5"
-      style={{ backgroundImage: `url(${src})`, backgroundPosition: position }}
-    />
-  );
-}
-
-function ImageCell({ hit, className, delay }) {
+function ProductCard({ hit, index }) {
   const reduce = useReducedMotion();
+
+  const moveLight = (event) => {
+    if (reduce || event.pointerType !== "mouse") return;
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = (event.clientX - rect.left) / rect.width - 0.5;
+    const y = (event.clientY - rect.top) / rect.height - 0.5;
+    event.currentTarget.style.setProperty("--light-x", `${50 + x * 18}%`);
+    event.currentTarget.style.setProperty("--tilt", `${x * 4}deg`);
+    event.currentTarget.style.setProperty("--lift", `${-6 + y * 5}px`);
+  };
+
+  const resetLight = (event) => {
+    event.currentTarget.style.removeProperty("--light-x");
+    event.currentTarget.style.removeProperty("--tilt");
+    event.currentTarget.style.removeProperty("--lift");
+  };
+
   return (
     <motion.a
       href="#contacts"
-      initial={reduce ? false : { opacity: 0, y: 32 }}
+      className={`dolce-card dolce-card--${hit.id}${index < 2 ? " dolce-card--featured" : ""}`}
+      style={{ "--drink-color": hit.color }}
+      initial={reduce ? false : { opacity: 0, y: 36 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 0.7, delay, ease }}
-      style={{ "--hit": hit.color }}
-      className={`group relative block overflow-hidden rounded-[28px] bg-ink ${className}`}
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{ duration: 0.85, delay: (index % 3) * 0.09, ease }}
+      onPointerMove={moveLight}
+      onPointerLeave={resetLight}
+      aria-label={`${hit.name} — ${hit.sizes.join(" и ")}, ПЭТ. Перейти к заказу`}
     >
-      {/* Ambient glow in the flavor's own color */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-70 transition-opacity duration-700 group-hover:opacity-100"
-        style={{
-          background: `radial-gradient(26rem 20rem at 50% 16%, color-mix(in srgb, ${hit.color} 38%, transparent), transparent 65%)`,
-        }}
-      />
-      <img
-        src={hit.img}
-        alt={`Напиток ${hit.name}, ${hit.sizes ?? "1 л"}`}
-        loading="lazy"
-        className="absolute inset-0 h-full w-full object-contain p-8 transition-transform duration-700 ease-out group-hover:scale-105"
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/0 to-ink/0" />
-      <div className="absolute right-6 bottom-6 left-6 flex items-end justify-between gap-4">
-        <div>
-          <div className="flex items-baseline gap-2.5">
-            <h3 className="font-display text-2xl font-bold tracking-tight text-white md:text-3xl">
-              {hit.name}
-            </h3>
-            <span className="text-sm font-semibold text-white/65">{hit.sizes ?? "1 л ПЭТ"}</span>
+      <div className="dolce-card__light" aria-hidden="true" />
+      <div className="dolce-card__stage">
+        <div className="dolce-card__shadow" aria-hidden="true" />
+        <img
+          className="dolce-card__bottle"
+          src={hit.img}
+          alt={`Бутылка ${hit.name}, 1 л`}
+          width={hit.imageWidth}
+          height={hit.imageHeight}
+          loading="lazy"
+          decoding="async"
+          draggable={false}
+        />
+      </div>
+      <div className="dolce-card__footer">
+        <div className="dolce-card__copy">
+          <div className="dolce-card__title">
+            <h3>{hit.name}</h3>
+            <span className="dolce-card__volume">{hit.id === "cola" ? "1 и 2 л" : "1 л"}</span>
           </div>
-          <p className="mt-1.5 max-w-[34ch] text-sm leading-relaxed text-white/85">{hit.text}</p>
+          <p className="dolce-card__description">{hit.text}</p>
         </div>
-        <span className="mb-1 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white text-ink transition-all duration-300 group-hover:scale-110 group-hover:bg-(--hit) group-hover:text-white">
-          <ArrowUpRight size={20} weight="bold" />
-        </span>
+        <span className="dolce-card__arrow" aria-hidden="true"><ArrowUpRight size={21} /></span>
       </div>
     </motion.a>
   );
@@ -65,13 +69,8 @@ function ImageCell({ hit, className, delay }) {
 
 export default function HitsBento() {
   const reduce = useReducedMotion();
-  const [cola, mojito, orange, lime] = hits;
-
-  // Curtain wipe: the section unfolds over the pinned flavor carousel.
-  // While the section top travels from the viewport bottom to near the top,
-  // the clip-path opens from fully closed to fully open, revealing content
-  // top-down and letting the pinned color show through below the wipe edge.
   const sectionRef = useRef(null);
+  // Preserve the section's scroll reveal without pinning the preceding carousel.
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "start 0.12"],
@@ -80,100 +79,51 @@ export default function HitsBento() {
   const clipPath = useMotionTemplate`inset(0 0 ${clipBottom}% 0)`;
 
   return (
-    <motion.section
-      ref={sectionRef}
-      id="hits"
-      className="relative z-10 bg-paper py-24 md:py-44"
-      style={reduce ? undefined : { clipPath }}
-    >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        <motion.h2
-          initial={reduce ? false : { opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.6 }}
-          transition={{ duration: 0.7, ease }}
-          className="max-w-5xl font-display text-3xl font-bold tracking-tight text-balance md:text-6xl"
-        >
-          Литровые хиты
-          <HeadlinePill src={asset("img/orange.webp")} position="center 30%" />
-          Dol4e
-          <HeadlinePill src={asset("img/mojito.webp")} position="center 44%" />
-          кончаются первыми
-        </motion.h2>
-        <motion.p
-          initial={reduce ? false : { opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.6 }}
-          transition={{ duration: 0.7, delay: 0.1, ease }}
-          className="mt-6 max-w-[52ch] text-lg leading-relaxed text-ink-soft"
-        >
-          Cola, Mojito, Orange и Lime в литровом ПЭТ: самые оборачиваемые позиции
-          линейки Dol4e.
-        </motion.p>
-
-        <div className="mt-10 grid grid-flow-dense grid-cols-1 gap-4 sm:grid-cols-2 sm:auto-rows-[260px] md:mt-14 lg:grid-cols-6 lg:auto-rows-[280px]">
-          <ImageCell hit={cola} delay={0} className="h-80 sm:h-auto sm:col-span-2 lg:col-span-4 lg:row-span-2" />
-          <ImageCell hit={mojito} delay={0.08} className="h-80 sm:h-auto lg:col-span-2" />
-          <ImageCell hit={orange} delay={0.16} className="h-80 sm:h-auto lg:col-span-2" />
-          <motion.div
-            initial={reduce ? false : { opacity: 0, y: 32 }}
+    <motion.section ref={sectionRef} id="hits" className="dolce-section site-section" style={reduce ? undefined : { clipPath }} aria-labelledby="dolce-title">
+      <div className="dolce-container site-container">
+        <div className="section-label-row"><p className="section-label">Линейка Дольче</p><span className="section-pill">В ПЭТ</span></div>
+        <div className="dolce-intro">
+          <motion.h2
+            id="dolce-title"
+            initial={reduce ? false : { opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.7, delay: 0.24, ease }}
-            className="relative flex min-h-80 flex-col justify-between overflow-hidden rounded-[28px] bg-dolce p-7 sm:col-span-2 sm:row-span-2 lg:col-span-3 lg:row-span-2"
-          >
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-0"
-              style={{
-                background:
-                  "radial-gradient(26rem 16rem at 85% 0%, rgba(255,255,255,0.18), transparent 60%), radial-gradient(30rem 20rem at 0% 100%, rgba(11,47,74,0.5), transparent 60%)",
-              }}
-            />
-            <span className="relative font-display text-5xl font-bold tracking-tight text-white md:text-6xl">
-              1 л / 2 л
-            </span>
-            <div className="relative">
-              <p className="font-display text-2xl font-bold tracking-tight text-balance text-white md:text-[1.7rem]">
-                Формат, который работает на полке
-              </p>
-              <p className="mt-3 max-w-[36ch] text-base leading-relaxed text-white/80">
-                Заметен издалека и быстро оборачивается: берут для компаний,
-                праздников и больших семейных ужинов.
-              </p>
-              {/* Фасовка и паллеты литровой линейки */}
-              <div className="mt-5 rounded-2xl border border-white/25 bg-white/10 px-4 py-3.5 backdrop-blur-sm">
-                <p className="font-display text-[13px] font-bold tracking-wide text-white uppercase">
-                  {hitsPackaging.spec}
-                </p>
-                <ul
-                  className="mt-2 space-y-1 text-[13px] leading-snug text-white/85"
-                  style={{ fontVariantNumeric: "tabular-nums" }}
-                >
-                  {hitsPackaging.pallets.map((p) => (
-                    <li key={p.label} className="flex items-baseline justify-between gap-3">
-                      <span className="shrink-0 text-white/60">{p.label}</span>
-                      <span className="text-right font-semibold whitespace-nowrap">{p.value}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <button
-                type="button"
-                onClick={openOrderModal}
-                className="group/link mt-5 inline-flex items-center gap-2 text-base font-semibold text-white underline-offset-4 transition-all duration-300 hover:underline active:scale-[0.98]"
-              >
-                Оформить заказ
-                <ArrowUpRight
-                  size={18}
-                  weight="bold"
-                  className="transition-transform duration-300 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5"
-                />
-              </button>
-            </div>
-          </motion.div>
-          <ImageCell hit={lime} delay={0.32} className="h-80 sm:h-auto sm:col-span-2 lg:col-span-3 lg:row-span-2" />
+            transition={{ duration: 0.8, ease }}
+          >Dol4e.<br /><span>Больше вкуса.</span></motion.h2>
+          <div className="dolce-intro__aside">
+            <p>Пять характеров.<br />Для моментов, которые хочется разделить.</p>
+          </div>
         </div>
+
+        <div className="dolce-grid">
+          {hits.map((hit, index) => <ProductCard key={hit.id} hit={hit} index={index} />)}
+        </div>
+
+        <motion.div
+          className="dolce-supply"
+          initial={reduce ? false : { opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.8, ease }}
+        >
+          <div className="dolce-supply__intro">
+            <p className="section-label">Для вашего бизнеса</p>
+            <h3>Яркая линейка.<br />Большие возможности.</h3>
+            <p>Подберём вкусы и объём поставки для вашего магазина, кафе или мероприятия.</p>
+          </div>
+          <div className="dolce-supply__packaging">
+            <p className="dolce-supply__spec">{hitsPackaging.spec}</p>
+            <dl>
+              {hitsPackaging.pallets.map((pallet) => (
+                <div key={pallet.label}>
+                  <dt>{pallet.label}</dt>
+                  <dd>{pallet.value.split(" · ").map((part, index) => <span key={part}>{part}{index === 0 ? " · " : ""}</span>)}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+          <button type="button" onClick={openOrderModal} className="dolce-supply__order site-order-button">Оформить заказ <ArrowUpRight size={22} /></button>
+        </motion.div>
       </div>
     </motion.section>
   );

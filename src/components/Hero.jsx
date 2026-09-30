@@ -143,7 +143,7 @@ export default function Hero() {
   const reduce = useReducedMotion();
   const isDesktop = useMediaQuery("(min-width: 1024px)");
 
-  // Scroll-driven depth: the photo drifts down slower than the page,
+  // Scroll-driven depth: the background video drifts down slower than the page,
   // the panel lifts and dissolves. Scales up slightly to keep edges covered.
   const sectionRef = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -173,11 +173,16 @@ export default function Hero() {
           className="absolute inset-0 origin-center"
           style={reduce ? undefined : { y: bgY, scale: bgScale }}
         >
-          <motion.img
-            src={asset("img/hero-bg-mobile.webp")}
-            alt="Бутылки лимонадов Мохито и Виноград на альпийском лугу"
-            className="h-[112%] w-full object-cover object-bottom"
+          <motion.video
+            src={asset("img/hero-loop.mp4")}
+            aria-label="Бутылки напитков «Виноград» и «Апельсин» на горном лугу"
+            className="h-full w-full object-cover object-bottom"
             fetchPriority="high"
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
             initial={reduce ? false : { scale: 1.12, opacity: 0.6 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 1.8, ease }}
@@ -229,22 +234,25 @@ export default function Hero() {
 
       {/* ---------- desktop: image in flow + glass panel overlay ---------- */}
       <div className="hidden lg:block">
-        {/* image in normal flow: always fully visible, never cropped */}
+        {/* Video in normal flow: its native aspect ratio reserves the hero's space. */}
         <motion.div
           className="origin-center"
           style={reduce ? undefined : { y: bgY, scale: bgScale }}
         >
-          <motion.img
-            src={asset("img/hero-bg.webp")}
-            alt="Бутылки лимонадов Мохито и Виноград на альпийском лугу"
+          <motion.video
+            src={asset("img/hero-loop.mp4")}
+            aria-label="Бутылки напитков «Виноград» и «Апельсин» на горном лугу"
             className="block h-auto w-full"
-            // Reserve the box before the bytes arrive: without intrinsic
-            // dimensions the section collapses to 0px while loading, which
-            // yanks the sections below to the top and leaves the scroll
-            // parallax stuck at its end state (white gap) until first scroll.
-            width={1672}
-            height={941}
+            // Reserve the box before metadata arrives so the section cannot
+            // collapse while the browser prepares the loop.
+            width={1916}
+            height={1080}
             fetchPriority="high"
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
             initial={reduce ? false : { scale: 1.08, opacity: 0.5 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 1.6, ease }}

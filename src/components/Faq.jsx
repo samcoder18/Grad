@@ -1,12 +1,16 @@
 import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { ArrowUpRight, Phone, Plus, WhatsappLogo } from "@phosphor-icons/react";
-import { contacts } from "../data/flavors.js";
+import { Phone, Plus, WhatsappLogo } from "@phosphor-icons/react";
+import { contacts, docs } from "../data/flavors.js";
 
 const ease = [0.16, 1, 0.3, 1];
 
+const [docVoda, docNapitki, docEgrip, docTm] = docs;
+
 // Ответы основаны на реальных документах: декларации ЕАЭС на воду Gudis
 // и напитки «Сладкий Град», свидетельство на товарный знак № 1087731.
+// Ответ `a` — строка или массив сегментов: строки — текст,
+// объекты { t, href, file } — кликабельные ссылки на документы.
 const faq = [
   {
     q: "Какой минимальный заказ?",
@@ -21,12 +25,61 @@ const faq = [
     a: "Да — с дистрибьюторами, магазинами, кафе и организаторами мероприятий. Начать можно с малой партии, от одной упаковки: проверите спрос на своей точке без риска и затем масштабируйте заказ.",
   },
   {
+    q: "Как оформить заказ?",
+    a: "Оставьте заявку через форму на сайте, позвоните или напишите в WhatsApp. Уточним ассортимент и объёмы, вышлем актуальный прайс и условия оплаты, согласуем дату отгрузки.",
+  },
+  {
     q: "Можно забрать заказ самовывозом?",
     a: "Да. Склад во Владикавказе, Ставропольская улица, 6 — с 10:00 до 17:00. По договорённости загрузим фуру в любое время суток — для крупных машин работаем 24 часа.",
   },
   {
+    q: "Где производится продукция?",
+    a: "На собственном производстве во Владикавказе: площадки на улице 5-я Промышленная, 2А и Ставропольской, 6. Вода Gudis разливается из природного источника Фанык-Дон в Кобанском ущелье РСО-Алания.",
+  },
+  {
+    q: "Кто производит стеклянные бутылки и как контролируется их качество?",
+    a: [
+      "Бутылки для нашей продукции производит стекольный завод «Красное Эхо» — один из лидеров российского рынка бесцветной стеклотары с историей с 1875 года. Завод выпускает упаковку объёмом от 50 до 2 000 мл на двух производственных площадках мощностью до 1 млрд условных единиц в год и ежедневно производит, упаковывает и отгружает более 2,5 млн единиц. Производство оснащено современными печами SORG, стеклоформующими машинами ISS10 Sklostroj и Heye SpeedLine, линиями транспортировки и упаковки Zecchetti, а также контрольными автоматами Tiama. Безопасность продукции подтверждена сертификатом BRC с оценкой AA, а система менеджмента ежегодно проходит внешний аудит. Завод самостоятельно изготавливает формокомплекты: качество контролируется после каждой операции, каждая партия чугунных и бронзовых заготовок проходит проверку химического состава, микроструктуры и испытание образцов. Оборудование Mitutoyo обеспечивает точность измерений до 0,0001 мм и проверку плоскости и профиля деталей. На каждый формокомплект выдаются паспорт и сертификат на литьё с результатами физико-химического анализа, данными о микроструктуре и сравнением заданных и фактических геометрических размеров. Подробнее — ",
+      {
+        t: "о заводе и производстве стеклотары",
+        href: "https://red-echo.ru/about/",
+      },
+      " и ",
+      {
+        t: "о контроле качества формокомплектов",
+        href: "https://red-echo.ru/formokomplekty/kachestvo/",
+      },
+      ".",
+    ],
+  },
+  {
+    q: "Кто производит сиропы и вкусовые основы для напитков?",
+    a: [
+      "Сиропы и вкусовые основы для наших напитков производит австрийская компания esarom. С 1946 года она разрабатывает ароматизаторы, экстракты, комплексные составы и другие ингредиенты для пищевой промышленности и производства напитков. Сертифицированные процессы, тщательный подбор сырья и регулярные проверки помогают сохранять стабильный вкус от партии к партии. Более 80% продукции esarom поставляется на экспорт, а её решения используют производители напитков в разных странах. Подробнее — ",
+      {
+        t: "на официальном сайте esarom",
+        href: "https://www.esarom.com/ru/",
+      },
+      ".",
+    ],
+  },
+  {
     q: "Какие документы даёте к поставке?",
-    a: "Полный пакет для торговли: УПД, декларации соответствия ЕАЭС на всю продукцию (вода Gudis — по ТР ЕАЭС 044/2017, напитки — по ГОСТ 28188-2014 и ТР ТС 021/2011), протоколы испытаний аккредитованных лабораторий. Товарный знак зарегистрирован — свидетельство № 1087731.",
+    a: [
+      "Полный пакет для торговли: УПД, ",
+      { t: "декларация соответствия на воду Gudis", ...docVoda },
+      " (ТР ЕАЭС 044/2017), ",
+      { t: "декларация на напитки «Сладкий Град»", ...docNapitki },
+      " (ГОСТ 28188-2014, ТР ТС 021/2011), протоколы испытаний аккредитованных лабораторий. Товарный знак зарегистрирован — ",
+      { t: "свидетельство № 1087731", ...docTm },
+      ". Реквизиты производителя — в ",
+      { t: "листе записи ЕГРИП", ...docEgrip },
+      ".",
+    ],
+  },
+  {
+    q: "Какой срок годности у продукции?",
+    a: "Напитки — 360 суток при температуре от 0 до +25 °C. Вода Gudis — 12 месяцев со дня розлива при температуре от 5 до 20 °C и влажности не более 85%. Условия указаны в декларациях соответствия.",
   },
   {
     q: "Возможен эксклюзив по региону?",
@@ -38,13 +91,17 @@ const faq = [
   },
 ];
 
+// Плоский текст ответа (для JSON-LD сегменты-ссылки подставляются своим текстом).
+const answerText = (a) =>
+  Array.isArray(a) ? a.map((s) => (typeof s === "string" ? s : s.t)).join("") : a;
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
   mainEntity: faq.map((item) => ({
     "@type": "Question",
     name: item.q,
-    acceptedAnswer: { "@type": "Answer", text: item.a },
+    acceptedAnswer: { "@type": "Answer", text: answerText(item.a) },
   })),
 };
 
@@ -72,7 +129,7 @@ function FaqItem({ item, index, isOpen, onToggle, reduce }) {
           {String(index + 1).padStart(2, "0")}
         </span>
         <span
-          className={`flex-1 font-display text-lg font-bold tracking-tight text-balance transition-colors duration-300 md:text-2xl ${
+          className={`min-w-0 flex-1 font-display text-lg font-bold tracking-tight text-balance transition-colors duration-300 md:text-2xl ${
             isOpen ? "text-brand" : "text-ink group-hover:text-brand"
           }`}
         >
@@ -100,7 +157,24 @@ function FaqItem({ item, index, isOpen, onToggle, reduce }) {
             className="overflow-hidden"
           >
             <p className="max-w-[62ch] pb-7 text-base leading-relaxed text-ink-soft sm:pl-[3.25rem] md:pl-[4.25rem]">
-              {item.a}
+              {Array.isArray(item.a)
+                ? item.a.map((s, i) =>
+                    typeof s === "string" ? (
+                      s
+                    ) : (
+                      <a
+                        key={i}
+                        href={s.href}
+                        download={s.file}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="font-medium text-ink underline decoration-ink/30 underline-offset-4 transition-colors hover:text-brand hover:decoration-brand"
+                      >
+                        {s.t}
+                      </a>
+                    ),
+                  )
+                : item.a}
             </p>
           </motion.div>
         )}
@@ -114,15 +188,15 @@ export default function Faq() {
   const [openIndex, setOpenIndex] = useState(0);
 
   return (
-    <section id="faq" className="bg-paper px-4 py-24 sm:px-6 md:py-36">
+    <section id="faq" className="site-section bg-paper">
       {/* Расширенный сниппет в поисковой выдаче */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="mx-auto grid max-w-7xl items-start gap-12 lg:grid-cols-12 lg:gap-16">
+      <div className="site-container grid items-start gap-12 lg:grid-cols-12 lg:gap-16">
         {/* Левая колонка: заголовок + карточка поддержки (sticky на десктопе) */}
-        <div className="lg:sticky lg:top-28 lg:col-span-5">
+        <div className="min-w-0 lg:sticky lg:top-28 lg:col-span-5">
           <motion.p
             initial={reduce ? false : { opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -173,18 +247,13 @@ export default function Faq() {
               Позвоните — поможем с ассортиментом, условиями и логистикой под
               вашу точку.
             </p>
-            <div className="relative mt-6 flex items-center gap-2.5">
+            <div className="relative mt-6 flex flex-wrap items-center gap-3">
               <a
                 href={contacts.phoneHref}
-                className="group inline-flex items-center gap-2 rounded-full bg-white px-6 py-3.5 text-base font-semibold text-ink transition-all duration-300 hover:bg-paper active:scale-[0.98]"
+                className="group inline-flex flex-wrap items-center justify-center gap-2 rounded-full bg-white px-4 py-3.5 text-base font-semibold text-ink transition-all duration-300 hover:bg-paper active:scale-[0.98]"
               >
                 <Phone size={18} weight="bold" />
                 {contacts.phone}
-                <ArrowUpRight
-                  size={18}
-                  weight="bold"
-                  className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                />
               </a>
               <a
                 href={contacts.whatsapp}
